@@ -26,14 +26,14 @@ import java.util.concurrent.BlockingQueue;
 /**
  * @author Immortius
  */
-final class TaskProcessor<T extends Task> implements Runnable {
+final class TaskProcessor<T extends Task> implements Runnable {//任何放在队列里的数据都是集成task的
 
     private static final Logger logger = LoggerFactory.getLogger(TaskProcessor.class);
 
-    private String name;
-    private BlockingQueue<T> queue;
+    private String name;//任务处理线程
+    private BlockingQueue<T> queue;//任务堆
 
-    public TaskProcessor(String name, BlockingQueue<T> taskQueue) {
+    public TaskProcessor(String name, BlockingQueue<T> taskQueue) {//构造函数
         this.queue = taskQueue;
         this.name = name;
     }
@@ -41,11 +41,11 @@ final class TaskProcessor<T extends Task> implements Runnable {
     @Override
     public void run() {
         boolean running = true;
-        Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-        Thread.currentThread().setName(name);
+        Thread.currentThread().setPriority(Thread.MIN_PRIORITY);//设置当前的线程(主线程)为低优先级 让本线程优先处理 
+        Thread.currentThread().setName(name);//设置名
         while (running) {
             try {
-                T task = queue.take();
+                T task = queue.take();//取任务
                 try (ThreadActivity ignored = ThreadMonitor.startThreadActivity(task.getName())) {
                     task.run();
                 }

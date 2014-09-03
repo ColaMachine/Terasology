@@ -32,15 +32,15 @@ import java.util.concurrent.TimeUnit;
  * @author Immortius
  */
 public final class TaskMaster<T extends Task> {
-    private static final Logger logger = LoggerFactory.getLogger(TaskMaster.class);
+    private static final Logger logger = LoggerFactory.getLogger(TaskMaster.class);//日志类初始化
 
-    private BlockingQueue<T> taskQueue;
-    private ExecutorService executorService;
-    private int threads;
-    private boolean running;
-    private String name;
+    private BlockingQueue<T> taskQueue;//fifo 生产者消费者 队列http://wsmajunfeng.iteye.com/blog/1629354
+    private ExecutorService executorService;// // 借助Executors 启动线程
+    private int threads;//线程数目
+    private boolean running;//是否运行
+    private String name;//名字
 
-    private TaskMaster(String name, int threads, BlockingQueue<T> queue) {
+    private TaskMaster(String name, int threads, BlockingQueue<T> queue) {//线程名 线程数目 队列
         this.name = name;
         this.threads = threads;
         if (threads <= 0) {

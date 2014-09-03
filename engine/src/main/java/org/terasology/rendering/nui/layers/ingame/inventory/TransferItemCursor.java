@@ -52,7 +52,7 @@ public class TransferItemCursor extends CursorAttachment implements ControlWidge
             icon.bindIcon(new ReadOnlyBinding<TextureRegion>() {
                 @Override
                 public TextureRegion get() {
-                    if (getItem().exists()) {
+                    if (getItem().exists()) {//如果存在物品
                         ItemComponent itemComp = getItem().getComponent(ItemComponent.class);
                         if (itemComp != null) {
                             return itemComp.icon;

@@ -144,7 +144,7 @@ public class StateIngame implements GameState {
 
     @Override
     public void update(float delta) {
-        eventSystem.process();
+        eventSystem.process();//输入处理
 
         for (UpdateSubscriberSystem system : componentSystemManager.iterateUpdateSubscribers()) {
             PerformanceMonitor.startActivity(system.getClass().getSimpleName());

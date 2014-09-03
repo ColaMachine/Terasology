@@ -83,22 +83,22 @@ public class TerasologyEngine implements GameEngine {
 
     private static final Logger logger = LoggerFactory.getLogger(TerasologyEngine.class);
 
-    private GameState currentState;
-    private boolean initialised;
-    private boolean running;
-    private boolean disposed;
-    private GameState pendingState;
+    private GameState currentState;//当前状态
+    private boolean initialised;//是否初始化
+    private boolean running;//是否泵跑
+    private boolean disposed;//是否取消
+    private GameState pendingState;//尾随状态
 
-    private Config config;
+    private Config config;//配置
 
-    private EngineTime time;
-    private final TaskMaster<Task> commonThreadPool = TaskMaster.createFIFOTaskMaster("common", 16);
+    private EngineTime time;//游戏时间
+    private final TaskMaster<Task> commonThreadPool = TaskMaster.createFIFOTaskMaster("common", 16);//创建一个16个容量的任务线程  的线程池
 
-    private boolean hibernationAllowed;
+    private boolean hibernationAllowed;//是否允许冬眠
     private boolean gameFocused = true;
     private Set<StateChangeSubscriber> stateChangeSubscribers = Sets.newLinkedHashSet();
 
-    private Deque<EngineSubsystem> subsystems;
+    private Deque<EngineSubsystem> subsystems;//
 
     public TerasologyEngine(Collection<EngineSubsystem> subsystems) {
         this.subsystems = Queues.newArrayDeque(subsystems);
@@ -114,7 +114,7 @@ public class TerasologyEngine implements GameEngine {
             return;
         }
 
-        Stopwatch sw = Stopwatch.createStarted();
+        Stopwatch sw = Stopwatch.createStarted();//用在init方法结束后统计时间
 
         try {
             logger.info("Initializing Terasology...");
@@ -211,7 +211,7 @@ public class TerasologyEngine implements GameEngine {
     private void initConfig() {
         if (Files.isRegularFile(Config.getConfigFile())) {
             try {
-                config = Config.load(Config.getConfigFile());
+                config = Config.load(Config.getConfigFile());//加载配置文件
             } catch (IOException e) {
                 logger.error("Failed to load config", e);
                 config = new Config();
@@ -391,7 +391,7 @@ public class TerasologyEngine implements GameEngine {
         while (running && !display.isCloseRequested()) {
 
             // Only process rendering and updating once a second
-            if (!display.isActive() && isHibernationAllowed()) {
+            if (!display.isActive() && isHibernationAllowed()) {//在后台运行 或者暂停了游戏 就不往下面执行了 只执行updatecycle
                 time.setPaused(true);
                 Iterator<Float> updateCycles = time.tick();
                 while (updateCycles.hasNext()) {
