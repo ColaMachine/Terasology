@@ -69,7 +69,7 @@ public final class Terasology {
                 }
             }
             if (homePath != null) {
-                PathManager.getInstance().useOverrideHomePath(homePath);
+                PathManager.getInstance().useOverrideHomePath(homePath);//indicate the root path  == install path
             } else {
                 PathManager.getInstance().useDefaultHomePath();
             }
