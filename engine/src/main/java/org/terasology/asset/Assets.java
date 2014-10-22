@@ -85,8 +85,8 @@ public final class Assets {
     }
 
     public static <T extends Asset<?>> T get(AssetType type, String uri, Class<T> assetClass) {
-        if (uri != null && !uri.isEmpty()) {
-            return CoreRegistry.get(AssetManager.class).resolveAndLoad(type, uri, assetClass);
+        if (uri != null && !uri.isEmpty()) {//engine:default
+            return CoreRegistry.get(AssetManager.class).resolveAndLoad(type, uri, assetClass);//SHADER engine:default Shader.class
         }
         return null;
     }
@@ -164,7 +164,7 @@ public final class Assets {
      * @return The requested shader, or null if it doesn't exist
      */
     public static Shader getShader(String simpleUri) {
-        return get(AssetType.SHADER, simpleUri, Shader.class);
+        return get(AssetType.SHADER, simpleUri, Shader.class);//engine:default
     }
 
     /**

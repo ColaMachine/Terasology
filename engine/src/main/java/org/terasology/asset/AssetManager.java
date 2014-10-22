@@ -118,7 +118,7 @@ public class AssetManager {
         factories.put(type, factory);
     }
 
-    public List<AssetUri> resolveAll(AssetType type, String name) {
+    public List<AssetUri> resolveAll(AssetType type, String name) {//
         AssetUri uri = new AssetUri(type, name);
         if (uri.isValid()) {
             return Lists.newArrayList(uri);
@@ -139,8 +139,8 @@ public class AssetManager {
     }
 
     public AssetUri resolve(AssetType type, String name) {
-        List<AssetUri> possibilities = resolveAll(type, name);
-        switch (possibilities.size()) {
+        List<AssetUri> possibilities = resolveAll(type, name);//Shader  engine:default
+        switch (possibilities.size()) {//shader:engine:default
             case 0:
                 logger.warn("Failed to resolve {}:{}", type, name);
                 return null;
@@ -202,7 +202,7 @@ public class AssetManager {
     }
 
     public <T extends Asset<?>> T resolveAndLoad(AssetType type, String name, Class<T> assetClass) {
-        Asset<?> result = resolveAndLoad(type, name);
+        Asset<?> result = resolveAndLoad(type, name);//Shader  engine:default
         if (assetClass.isInstance(result)) {
             return assetClass.cast(result);
         }
@@ -218,9 +218,9 @@ public class AssetManager {
     }
 
     public Asset<?> resolveAndLoad(AssetType type, String name) {
-        AssetUri uri = resolve(type, name);
+        AssetUri uri = resolve(type, name);//Shader  engine:default
         if (uri != null) {
-            return loadAsset(uri, false);
+            return loadAsset(uri, false);//shader:engine:default
         }
         return null;
     }
@@ -290,7 +290,7 @@ public class AssetManager {
             return null;
         }
 
-        List<URL> urls = getAssetURLs(uri);
+        List<URL> urls = getAssetURLs(uri);////shader:engine:default return the default_frag.glsl default_vert.glsl
         if (urls.size() == 0) {
             if (logErrors) {
                 logger.warn("Unable to resolve asset: {}", uri);
@@ -305,17 +305,17 @@ public class AssetManager {
             }
 
             String extension = url.toString().substring(extensionIndex + 1).toLowerCase(Locale.ENGLISH);
-            Map<String, AssetLoader<?>> extensionMap = assetLoaders.get(uri.getAssetType());//the assettype maybe the prefab block they may be only one arccording to assettype to get the all extensions
+            Map<String, AssetLoader<?>> extensionMap = assetLoaders.get(uri.getAssetType());//the assettype actually was glsl and info maybe the prefab block they may be only one arccording to assettype to get the all extensions
             if (extensionMap == null) {
                 continue;
             }
 
-            AssetLoader<?> loader = extensionMap.get(extension);//e.g.  blockloader
-            if (loader == null) {
+            AssetLoader<?> loader = extensionMap.get(extension);//e.g. glsl  blockloader
+            if (loader == null) {//glslshaderloader
                 continue;
             }
 
-            Module module = environment.get(uri.getModuleName());//e.g. core
+            Module module = environment.get(uri.getModuleName());//e.g. core engine-0.1.0
             List<URL> deltas;
             if (uri.getAssetType().isDeltaSupported()) {//core:block:water
                 deltas = Lists.newArrayList();
@@ -349,18 +349,18 @@ public class AssetManager {
             return null;
         }
 
-        Asset<?> asset = assetCache.get(uri);
+        Asset<?> asset = assetCache.get(uri);//asset = null
         if (asset != null) {
             return asset;
         }
 
-        AssetFactory<D, Asset<D>> factory = (AssetFactory<D, Asset<D>>) factories.get(uri.getAssetType());
+        AssetFactory<D, Asset<D>> factory = (AssetFactory<D, Asset<D>>) factories.get(uri.getAssetType());//factory LwjglGraphics inner class
         if (factory == null) {
             logger.error("No asset factory set for assets of type {}", uri.getAssetType());
             return null;
         }
 
-        for (AssetResolver<?, ?> resolver : resolvers.get(uri.getAssetType())) {
+        for (AssetResolver<?, ?> resolver : resolvers.get(uri.getAssetType())) {//subtexturefromatlasresolvers iconmeshresolver colortextureresolver
             AssetResolver<Asset<D>, D> typedResolver = (AssetResolver<Asset<D>, D>) resolver;
             Asset<D> result = typedResolver.resolve(uri, factory);
             if (result != null) {
@@ -370,12 +370,12 @@ public class AssetManager {
         }
 
         try (ModuleContext.ContextSpan ignored = ModuleContext.setContext(environment.get(uri.getModuleName()))) {
-            AssetData data = loadAssetData(uri, logErrors);
-
+            AssetData data = loadAssetData(uri, logErrors);//shader:engine:default
+//sharedata
             if (data != null) {
                 // TODO: verify that data class matches factory data class type
                 // for example: if (factory.getDataTypeClass().isInstance(data)) ..
-                asset = factory.buildAsset(uri, (D) data);
+                asset = factory.buildAsset(uri, (D) data);//factory in lwjglGraphics
                 if (asset != null) {
                     logger.debug("Loaded {}", uri);
                     assetCache.put(uri, asset);
@@ -515,12 +515,12 @@ public class AssetManager {
     }
 
     public List<URL> getAssetURLs(AssetUri uri) {
-        AssetSource overrideSource = overrides.get(uri);
+        AssetSource overrideSource = overrides.get(uri);//first get from override it's module
         if (overrideSource != null) {
             return overrideSource.getOverride(uri);
-        } else {
-            AssetSource source = assetSources.get(uri.getModuleName());
-            if (source != null) {
+        } else {//modulename engine
+            AssetSource source = assetSources.get(uri.getModuleName());//shader:engine:default
+            if (source != null) {//
                 return source.get(uri);
             }
         }

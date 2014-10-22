@@ -49,7 +49,7 @@ public class AssetSourceCollection implements AssetSource {
     public List<URL> get(AssetUri uri) {
         List<URL> combinedList = Lists.newArrayList();
         for (AssetSource assetSource : assetSources) {
-            combinedList.addAll(assetSource.get(uri));
+            combinedList.addAll(assetSource.get(uri));//default_frag.glsl default_vert.glsl
         }
         return combinedList;
     }

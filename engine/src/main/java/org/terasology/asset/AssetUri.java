@@ -74,7 +74,7 @@ public final class AssetUri implements Uri, Comparable<AssetUri> {
     }
 
     public AssetType getAssetType() {
-        return type;
+        return type;//shader this : shader:engine:default
     }
 
     @Override

@@ -99,7 +99,7 @@ public class GLSLShader extends AbstractAsset<ShaderData> implements Shader {
 
     public GLSLShader(AssetUri uri, ShaderData data) {
         super(uri);
-        reload(data);
+        reload(data);//
     }
 
     public Set<ShaderProgramFeature> getAvailableFeatures() {
@@ -275,8 +275,8 @@ public class GLSLShader extends AbstractAsset<ShaderData> implements Shader {
     }
 
     private void compileShaders(Set<ShaderProgramFeature> features) {
-        compileShader(GL20.GL_FRAGMENT_SHADER, features);
-        compileShader(GL20.GL_VERTEX_SHADER, features);
+        compileShader(GL20.GL_FRAGMENT_SHADER, features);//编译
+        compileShader(GL20.GL_VERTEX_SHADER, features);//编译
     }
 
     private void compileAllShaderPermutations() {
@@ -332,7 +332,7 @@ public class GLSLShader extends AbstractAsset<ShaderData> implements Shader {
 
         Path path = PathManager.getInstance().getShaderLogPath().resolve(debugShaderType.toLowerCase() + "_" + strippedTitle + "_" + featureHash + ".glsl");
         try (BufferedWriter writer = Files.newBufferedWriter(path, TerasologyConstants.CHARSET)) {
-            writer.write(shader.toString());
+            writer.write(shader.toString());//logs/shaders/fragment_shader-engine-default_0.glsl
         } catch (IOException e) {
             logger.error("Failed to dump shader source.");
         }

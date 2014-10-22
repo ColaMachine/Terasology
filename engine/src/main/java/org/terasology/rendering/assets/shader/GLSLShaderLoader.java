@@ -50,19 +50,19 @@ public class GLSLShaderLoader implements AssetLoader<ShaderData> {
     @Override
     public ShaderData load(Module module, InputStream stream, List<URL> urls, List<URL> deltas) throws IOException {
         String vertProgram = null;
-        String fragProgram = null;
+        String fragProgram = null;//
         ShaderMetadata metadata = new ShaderMetadata();
 
         for (URL url : urls) {
             if (url.toString().endsWith("_vert.glsl")) {
                 vertProgram = readUrl(url);
             } else if (url.toString().endsWith("_frag.glsl")) {
-                fragProgram = readUrl(url);
+                fragProgram = readUrl(url);//default_frg.glsl
             } else if (url.toString().endsWith(".info")) {
                 metadata = readMetadata(url);
             }
         }
-        if (vertProgram != null && fragProgram != null) {
+        if (vertProgram != null && fragProgram != null) {//shaderdata record/store the vertProgram and fragPrgogram String info
             return new ShaderData(vertProgram, fragProgram, metadata.getParameters());
         }
         return null;

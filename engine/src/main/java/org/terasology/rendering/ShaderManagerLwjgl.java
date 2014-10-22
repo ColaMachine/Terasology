@@ -168,8 +168,8 @@ public class ShaderManagerLwjgl implements ShaderManager {
     }
 
     private GLSLMaterial prepareAndStoreShaderProgramInstance(String title, ShaderParameters params) {
-        String uri = "engine:" + title;
-        Shader shader = Assets.getShader(uri);
+        String uri = "engine:" + title;//auto contact the uri name title ='default'
+        Shader shader = Assets.getShader(uri);//engine:default
         checkNotNull(shader, "Failed to resolve %s", uri);
         shader.recompile();
         GLSLMaterial material = Assets.generateAsset(new AssetUri(AssetType.MATERIAL, "engine:prog." + title), new MaterialData(shader), GLSLMaterial.class);
