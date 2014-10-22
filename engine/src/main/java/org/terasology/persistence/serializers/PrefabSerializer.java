@@ -136,7 +136,7 @@ public class PrefabSerializer {
 
         applyComponentChanges(context, prefabData, result);
         for (EntityData.Prefab delta : deltas) {
-            applyComponentChanges(context, delta, result);
+            applyComponentChanges(context, delta, result);//改变的地方
         }
 
         return result;
@@ -148,7 +148,7 @@ public class PrefabSerializer {
             if (metadata != null) {
                 result.removeComponent(metadata.getType());
             }
-        }
+        }// 遍历组件内容
         for (EntityData.Component componentData : prefabData.getComponentList()) {
             ComponentMetadata<?> metadata = componentLibrary.resolve(componentData.getType(), context);
             if (metadata != null) {

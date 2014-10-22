@@ -330,7 +330,7 @@ public class AssetManager {
             }
             try (InputStream stream = AccessController.doPrivileged(new PrivilegedOpenStream(url))) {
                 urls.remove(url);
-                urls.add(0, url);
+                urls.add(0, url);//把url加载到前面
                 return loader.load(module, stream, urls, deltas);
             } catch (PrivilegedActionException e) {
                 logger.error("Error reading asset {}", uri, e.getCause());

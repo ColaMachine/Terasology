@@ -41,11 +41,11 @@ public class PrefabLoader implements AssetLoader<PrefabData> {
     @Override
     public PrefabData load(Module module, InputStream stream, List<URL> urls, List<URL> deltas) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream, Charsets.UTF_8));
-        EntityData.Prefab prefabData = EntityDataJSONFormat.readPrefab(reader);
+        EntityData.Prefab prefabData = EntityDataJSONFormat.readPrefab(reader);//从文件中读取prefab数据
         if (prefabData != null) {
             EngineEntityManager entityManager = CoreRegistry.get(EngineEntityManager.class);
             List<EntityData.Prefab> deltaData = Lists.newArrayListWithCapacity(deltas.size());
-            for (URL deltaUrl : deltas) {
+            for (URL deltaUrl : deltas) {//再从delta里读取对应的数据
                 try (BufferedReader deltaReader = new BufferedReader(new InputStreamReader(deltaUrl.openStream(), Charsets.UTF_8))) {
                     EntityData.Prefab delta = EntityDataJSONFormat.readPrefab(deltaReader);
                     deltaData.add(delta);

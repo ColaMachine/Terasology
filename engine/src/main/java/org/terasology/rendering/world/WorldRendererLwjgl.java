@@ -910,7 +910,7 @@ public final class WorldRendererLwjgl implements WorldRenderer {
                         shader.enable();
                     }
 
-                    chunk.getMesh()[i].render(phase);
+                    chunk.getMesh()[i].render(phase); //main render chunk 
                     statRenderedTriangles += chunk.getMesh()[i].triangleCount();
                 }
             }

@@ -81,7 +81,7 @@ public final class Block {
                 return new Vector4f(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, 1.0f);
             }
         },
-        FOLIAGE_LUT {
+        FOLIAGE_LUT {//the leaves
             @Override
             public Vector4f calcColor(float temperature, float humidity) {
                 float prod = humidity * temperature;
@@ -142,37 +142,37 @@ public final class Block {
     private boolean ice;
 
     // Rendering related
-    private boolean invisible;
-    private boolean translucent;
+    private boolean invisible;//is visible
+    private boolean translucent;//transparent 
     private boolean doubleSided;
     private boolean shadowCasting = true;
     private boolean waving;
-    private byte luminance;
-    private Vector3f tint = new Vector3f(0, 0, 0);
-    private Map<BlockPart, ColorSource> colorSource = Maps.newEnumMap(BlockPart.class);
+    private byte luminance;//the light degree
+    private Vector3f tint = new Vector3f(0, 0, 0);//the skin color
+    private Map<BlockPart, ColorSource> colorSource = Maps.newEnumMap(BlockPart.class);//eachside 's color
     private Map<BlockPart, Vector4f> colorOffsets = Maps.newEnumMap(BlockPart.class);
 
     // Collision related
-    private boolean penetrable;
-    private boolean targetable = true;
-    private boolean climbable;
+    private boolean penetrable;// the arrow can passed
+    private boolean targetable = true;// can be target
+    private boolean climbable;//can be climb
 
     // Physics
     private float mass = 10;
     private boolean debrisOnDestroy = true;
 
     // Entity integration
-    private String prefab = "";
-    private boolean keepActive;
+    private String prefab = "";//the weight
+    private boolean keepActive;//
     private EntityRef entity = EntityRef.NULL;
     private boolean lifecycleEventsRequired;
 
     // Inventory settings
-    private boolean directPickup;
-    private boolean stackable = true;
+    private boolean directPickup;//canbe pickup
+    private boolean stackable = true;// stone x 10
 
     /* Mesh */
-    private Mesh mesh;
+    private Mesh mesh;//poly many triangles 
     private BlockAppearance primaryAppearance = new BlockAppearance();
     // TODO: Remove once liquids have nicer generation
     private Map<Side, BlockMeshPart> loweredLiquidMesh = Maps.newEnumMap(Side.class);

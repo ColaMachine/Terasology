@@ -21,5 +21,6 @@ package org.terasology.entitySystem.systems;
 public interface UpdateSubscriberSystem extends ComponentSystem {
 
     void update(float delta);
-
+    
+    
 }

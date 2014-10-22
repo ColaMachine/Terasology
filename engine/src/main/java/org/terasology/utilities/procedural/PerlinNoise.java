@@ -74,7 +74,7 @@ public class PerlinNoise implements Noise3D {
         int yInt = (int) TeraMath.fastFloor(posY) & 255;
         int zInt = (int) TeraMath.fastFloor(posZ) & 255;
 
-        double x = posX - TeraMath.fastFloor(posX);
+        double x = posX - TeraMath.fastFloor(posX);//余
         double y = posY - TeraMath.fastFloor(posY);
         double z = posZ - TeraMath.fastFloor(posZ);
 
@@ -88,7 +88,7 @@ public class PerlinNoise implements Noise3D {
         int ba = noisePermutations[b] + zInt;
         int bb = noisePermutations[(b + 1)] + zInt;
 
-        return lerp(w, lerp(v, lerp(u, grad(noisePermutations[aa], x, y, z),
+        return lerp(w, lerp(v, lerp(u, grad(noisePermutations[aa], x, y, z),//两个高度之间 逐渐升高
                 grad(noisePermutations[ba], x - 1, y, z)),
                 lerp(u, grad(noisePermutations[ab], x, y - 1, z),
                         grad(noisePermutations[bb], x - 1, y - 1, z))),
@@ -97,11 +97,19 @@ public class PerlinNoise implements Noise3D {
                         lerp(u, grad(noisePermutations[(ab + 1)], x, y - 1, z - 1),
                                 grad(noisePermutations[(bb + 1)], x - 1, y - 1, z - 1))));
     }
-
+   /**
+    * 产生类似正弦的变化
+    * @param t
+    * @return
+    */
     private static double fade(double t) {
         return t * t * t * (t * (t * 6 - 15) + 10);
     }
-
+    /**
+     * 两个端点之间逐渐升高
+     * @param t
+     * @return
+     */
     private static double lerp(double t, double a, double b) {
         return a + t * (b - a);
     }

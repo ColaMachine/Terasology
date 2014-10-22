@@ -107,7 +107,7 @@ public class BlockLoader implements BlockBuilderHelper {
         this.blockFamilyFactoryRegistry = blockFamilyFactoryRegistry;
     }
 
-    public LoadBlockDefinitionResults loadBlockDefinitions() {
+    public LoadBlockDefinitionResults loadBlockDefinitions() {//it loading block from *.block
         logger.info("Loading Blocks...");
 
         LoadBlockDefinitionResults result = new LoadBlockDefinitionResults();
@@ -122,10 +122,10 @@ public class BlockLoader implements BlockBuilderHelper {
                         continue;
                     }
                     logger.debug("Loading {}", blockDefUri);
-
+                    //create blockc definintion 
                     BlockDefinition blockDef = createBlockDefinition(inheritData(blockDefUri, blockDefJson));
-
-                    if (isShapelessBlockFamily(blockDef)) {
+                    //judge the block def is whether the shapeless
+                    if (isShapelessBlockFamily(blockDef)) {//what's the freeformfamily means no shape ? see the Comments in freeform family
                         result.shapelessDefinitions.add(new FreeformFamily(new BlockUri(blockDefUri.getModuleName(), blockDefUri.getAssetName()), blockDef.categories));
                     } else {
                         if (blockDef.liquid) {
@@ -184,8 +184,8 @@ public class BlockLoader implements BlockBuilderHelper {
             }
 
             def.shape = (shape.getURI().toSimpleString());
-            if (shape.isCollisionYawSymmetric()) {
-                Block block = constructSingleBlock(blockDefUri, def);
+            if (shape.isCollisionYawSymmetric()) {//isCollisionYawSymmetric i don't know
+                Block block = constructSingleBlock(blockDefUri, def);//construct single block 
                 if (block.getDisplayName().isEmpty()) {
                     block.setDisplayName(shape.getDisplayName());
                 } else if (!shape.getDisplayName().isEmpty()) {
@@ -223,7 +223,7 @@ public class BlockLoader implements BlockBuilderHelper {
         return result;
     }
 
-    private boolean isShapelessBlockFamily(BlockDefinition blockDef) {
+    private boolean isShapelessBlockFamily(BlockDefinition blockDef) {// shapes is null shape  rotation liquid tiles
         return blockDef.shapes.isEmpty() && blockDef.shape.isEmpty() && blockDef.rotation == null && !blockDef.liquid && blockDef.tiles == null;
     }
 
@@ -231,7 +231,7 @@ public class BlockLoader implements BlockBuilderHelper {
         JsonObject parentObj = blockDefJson;
         while (parentObj.has("basedOn")) {
             AssetUri parentUri = Assets.resolveAssetUri(AssetType.BLOCK_DEFINITION, parentObj.get("basedOn").getAsString());
-            if (rootAssetUri.equals(parentUri)) {
+            if (rootAssetUri.equals(parentUri)) {//can based on it's self
                 logger.error("Circular inheritance detected in {}", rootAssetUri);
                 break;
             } else if (!parentUri.isValid()) {
@@ -239,7 +239,7 @@ public class BlockLoader implements BlockBuilderHelper {
                 break;
             }
             JsonObject parent = readJson(parentUri).getAsJsonObject();
-            JsonMergeUtil.mergeOnto(parent, blockDefJson);
+            JsonMergeUtil.mergeOnto(parent, blockDefJson);// simple merge
             parentObj = parent;
         }
         return blockDefJson;
@@ -275,7 +275,7 @@ public class BlockLoader implements BlockBuilderHelper {
         return constructSingleBlock(blockDefUri, blockDefinition);
     }
 
-    private Block constructSingleBlock(AssetUri blockDefUri, BlockDefinition blockDef) {
+    private Block constructSingleBlock(AssetUri blockDefUri, BlockDefinition blockDef) {// important
         Map<BlockPart, AssetUri> tileUris = prepareTiles(blockDef, blockDefUri);
         Map<BlockPart, Block.ColorSource> colorSourceMap = prepareColorSources(blockDef);
         Map<BlockPart, Vector4f> colorOffsetsMap = prepareColorOffsets(blockDef);
@@ -450,7 +450,7 @@ public class BlockLoader implements BlockBuilderHelper {
     }
 
     private Map<BlockPart, AssetUri> prepareTiles(BlockDefinition blockDef, AssetUri uri) {
-        AssetUri tileUri = getDefaultTile(blockDef, uri);
+        AssetUri tileUri = getDefaultTile(blockDef, uri);//return new AssetUri wrap blockdef.tile
 
         Map<BlockPart, AssetUri> tileUris = Maps.newEnumMap(BlockPart.class);
         for (BlockPart part : BlockPart.values()) {
@@ -492,7 +492,7 @@ public class BlockLoader implements BlockBuilderHelper {
         }
         return null;
     }
-
+    //this only create blockdefinition object from the json file .block
     private BlockDefinition createBlockDefinition(JsonElement element) {
         return gson.fromJson(element, BlockDefinition.class);
     }

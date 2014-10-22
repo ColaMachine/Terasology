@@ -28,7 +28,7 @@ import java.util.Map;
  *
  * @author Immortius
  */
-public class BlockAppearance {
+public class BlockAppearance {// front or back or top .... and his 
 
     private Map<BlockPart, BlockMeshPart> blockParts;
     private Map<BlockPart, Vector2f> textureAtlasPos = new EnumMap<>(BlockPart.class);
