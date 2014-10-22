@@ -430,7 +430,7 @@ public class AssetManager {
             logger.debug("Reloading {} with newly generated data", uri);
             asset.reload(data);
         } else {
-            asset = assetFactory.buildAsset(uri, data);
+            asset = assetFactory.buildAsset(uri, data);//buildAsset
             if (asset != null && !asset.isDisposed()) {
                 assetCache.put(uri, asset);
             }

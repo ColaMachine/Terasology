@@ -87,7 +87,7 @@ public abstract class AbstractSource implements AssetSource {
         assetsByType.clear();
     }
 
-    protected void addItem(AssetUri uri, URL url) {
+    protected void addItem(AssetUri uri, URL url) {// type - uri  uri - url
         assets.put(uri, url);
         assetsByType.put(uri.getAssetType(), uri);
     }

@@ -153,7 +153,7 @@ public class WorldSerializerImpl implements WorldSerializer {
         SimpleUri uri = new SimpleUri(prefabData.getName());
         try (ModuleContext.ContextSpan ignored = ModuleContext.setContext(moduleManager.getEnvironment().get(uri.getModuleName()))) {
             PrefabData protoPrefab = prefabSerializer.deserialize(prefabData);
-            Assets.generateAsset(new AssetUri(AssetType.PREFAB, prefabData.getName()), protoPrefab, Prefab.class);
+            Assets.generateAsset(new AssetUri(AssetType.PREFAB, prefabData.getName()), protoPrefab, Prefab.class);//prefab generated
         } catch (Exception e) {
             logger.error("Failed to create prefab {}", prefabData.getName());
         }

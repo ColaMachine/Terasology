@@ -22,7 +22,7 @@ import org.terasology.engine.GameEngine;
  * @author Anton Kireev <adeon.k87@gmail.com>
  * @version 0.1
  */
-public interface GameState {
+public interface GameState {//mainmenu state game state stop state
 
     void init(GameEngine engine);
 
