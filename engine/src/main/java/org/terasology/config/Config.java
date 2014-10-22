@@ -179,7 +179,7 @@ public final class Config {
 
     protected static Gson createGson() {
         return new GsonBuilder()
-                .registerTypeAdapter(Name.class, new NameTypeAdapter())
+                .registerTypeAdapter(Name.class, new NameTypeAdapter())//if the variable instance of name then the value process by nametype adpter
                 .registerTypeAdapter(Version.class, new VersionTypeAdapter())
                 .registerTypeAdapter(BindsConfig.class, new BindsConfig.Handler())
                 .registerTypeAdapter(SetMultimap.class, new SetMultimapTypeAdapter<>(Input.class))

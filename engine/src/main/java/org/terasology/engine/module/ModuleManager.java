@@ -58,8 +58,8 @@ public class ModuleManager {
     private ModuleMetadataReader metadataReader;
 
     public ModuleManager() {
-        metadataReader = new ModuleMetadataReader();
-        metadataReader.registerExtension(SERVER_SIDE_ONLY_EXT, Boolean.TYPE);
+        metadataReader = new ModuleMetadataReader();//GsonReader
+        metadataReader.registerExtension(SERVER_SIDE_ONLY_EXT, Boolean.TYPE);//only read the server side only ext proerpties
         Module engineModule;
         try (Reader reader = new InputStreamReader(getClass().getResourceAsStream("/assets/module.txt"))) {
             ModuleMetadata metadata = metadataReader.read(reader);

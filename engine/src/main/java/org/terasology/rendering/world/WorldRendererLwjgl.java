@@ -842,7 +842,7 @@ public final class WorldRendererLwjgl implements WorldRenderer {
 
         glDisable(GL_CULL_FACE);
 
-        camera.lookThrough();
+        camera.lookThrough();//where it is inited
 
         while (renderQueueChunksOpaqueShadow.size() > 0) {
             renderChunk(renderQueueChunksOpaqueShadow.poll(), ChunkMesh.RenderPhase.OPAQUE, camera, ChunkRenderMode.SHADOW_MAP);

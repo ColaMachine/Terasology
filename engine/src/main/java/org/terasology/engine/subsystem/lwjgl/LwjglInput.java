@@ -30,7 +30,7 @@ import org.terasology.input.lwjgl.LwjglMouseDevice;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.rendering.nui.NUIManager;
 
-public class LwjglInput extends BaseLwjglSubsystem {
+public class LwjglInput extends BaseLwjglSubsystem {// the bridge link from lwjgl input to inputsystem
 
     private static final Logger logger = LoggerFactory.getLogger(LwjglInput.class);
     private boolean mouseGrabbed;

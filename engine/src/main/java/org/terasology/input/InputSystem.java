@@ -201,8 +201,8 @@ public class InputSystem extends BaseComponentSystem {
     }
 
     public void update(float delta) {
-        processMouseInput(delta);
-        processKeyboardInput(delta);
+        processMouseInput(delta);//process mouse input
+        processKeyboardInput(delta);//process keyboard
         processBindRepeats(delta);
         processBindAxis(delta);
     }
@@ -214,7 +214,7 @@ public class InputSystem extends BaseComponentSystem {
 
         Vector2i deltaMouse = mouse.getDelta();
         //process mouse movement x axis
-        if (deltaMouse.x != 0) {
+        if (deltaMouse.x != 0) {// create MouseXAxisEvent in axis x
             MouseAxisEvent event = new MouseXAxisEvent(deltaMouse.x * config.getInput().getMouseSensitivity(), delta);
             setupTarget(event);
             for (EntityRef entity : getInputEntities()) {
@@ -238,7 +238,7 @@ public class InputSystem extends BaseComponentSystem {
         }
 
         //process mouse clicks
-        for (InputAction action : mouse.getInputQueue()) {
+        for (InputAction action : mouse.getInputQueue()) {//iterate the events
             switch (action.getInput().getType()) {
                 case MOUSE_BUTTON:
                     int id = action.getInput().getId();

@@ -117,17 +117,17 @@ public class TerasologyEngine implements GameEngine {
         Stopwatch sw = Stopwatch.createStarted();//用在init方法结束后统计时间
 
         try {
-            logger.info("Initializing Terasology...");
-            logger.info(TerasologyVersion.getInstance().toString());
-            logger.info("Home path: {}", PathManager.getInstance().getHomePath());
-            logger.info("Install path: {}", PathManager.getInstance().getInstallPath());
-            logger.info("Java: {} in {}", System.getProperty("java.version"), System.getProperty("java.home"));
-            logger.info("Java VM: {}, version: {}", System.getProperty("java.vm.name"), System.getProperty("java.vm.version"));
-            logger.info("OS: {}, arch: {}, version: {}", System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("os.version"));
-            logger.info("Max. Memory: {} MB", Runtime.getRuntime().maxMemory() / (1024 * 1024));
-            logger.info("Processors: {}", Runtime.getRuntime().availableProcessors());
+            logger.info("Initializing Terasology...");//print
+            logger.info(TerasologyVersion.getInstance().toString());//print version
+            logger.info("Home path: {}", PathManager.getInstance().getHomePath());//c:mydocument/terasology/
+            logger.info("Install path: {}", PathManager.getInstance().getInstallPath());//the code path
+            logger.info("Java: {} in {}", System.getProperty("java.version"), System.getProperty("java.home"));//print jdk version
+            logger.info("Java VM: {}, version: {}", System.getProperty("java.vm.name"), System.getProperty("java.vm.version"));//print jvm version
+            logger.info("OS: {}, arch: {}, version: {}", System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("os.version"));//the os version
+            logger.info("Max. Memory: {} MB", Runtime.getRuntime().maxMemory() / (1024 * 1024));//the max memory
+            logger.info("Processors: {}", Runtime.getRuntime().availableProcessors());//the avaliable processors num
 
-            initConfig();
+            initConfig();//
 
             for (EngineSubsystem subsystem : getSubsystems()) {
                 subsystem.preInitialise();
@@ -234,9 +234,9 @@ public class TerasologyEngine implements GameEngine {
 
     @Override
     public void run(GameState initialState) {
-        try {
+        try {//singletone gameEngine
             CoreRegistry.putPermanently(GameEngine.class, this);
-            if (!initialised) {
+            if (!initialised) {//if hasn't been initialised
                 init();
             }
             changeState(initialState);
@@ -460,7 +460,7 @@ public class TerasologyEngine implements GameEngine {
         }
     }
 
-    private void switchState(GameState newState) {
+    private void switchState(GameState newState) {//what's this
         if (currentState != null) {
             currentState.dispose();
         }

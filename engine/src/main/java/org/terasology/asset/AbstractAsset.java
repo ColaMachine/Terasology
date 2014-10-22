@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  *
  */
-public abstract class AbstractAsset<T extends AssetData> implements Asset<T> {
+public abstract class 1AbstractAsset<T extends AssetData> implements Asset<T> {
 
     private final AssetUri uri;
 

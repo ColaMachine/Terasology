@@ -37,7 +37,7 @@ public class DropItemRequest implements Event {
 
     protected DropItemRequest() {
     }
-
+//inventoryEntity guess is bag  usedItem guess the item in hand
     public DropItemRequest(EntityRef usedItem, EntityRef inventoryEntity, Vector3f impulse, Vector3f newPosition) {
         this.item = usedItem;
         this.inventory = inventoryEntity;

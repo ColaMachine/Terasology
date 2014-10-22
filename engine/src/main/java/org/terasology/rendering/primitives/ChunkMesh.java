@@ -167,8 +167,8 @@ public class ChunkMesh {
             idxBuffers[id] = bufferPool.get("chunkMesh");
             vertexCount[id] = elements.finalIndices.limit();
 
-            VertexBufferObjectUtil.bufferVboElementData(idxBuffers[id], elements.finalIndices, GL15.GL_STATIC_DRAW);
-            VertexBufferObjectUtil.bufferVboData(vertexBuffers[id], elements.finalVertices, GL15.GL_STATIC_DRAW);
+            VertexBufferObjectUtil.bufferVboElementData(idxBuffers[id], elements.finalIndices, GL15.GL_STATIC_DRAW);//generate the vbo into gpu
+            VertexBufferObjectUtil.bufferVboData(vertexBuffers[id], elements.finalVertices, GL15.GL_STATIC_DRAW);//
         } else {
             vertexBuffers[id] = 0;
             idxBuffers[id] = 0;

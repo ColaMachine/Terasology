@@ -58,20 +58,20 @@ public class AssetManager {
 
     private static final Logger logger = LoggerFactory.getLogger(AssetManager.class);
 
-    private ModuleEnvironment environment;
-    private Map<Name, AssetSource> assetSources = Maps.newHashMap();
-    private Map<AssetType, Map<String, AssetLoader<?>>> assetLoaders = Maps.newEnumMap(AssetType.class);
-    private Map<AssetUri, Asset<?>> assetCache = Maps.newHashMap();
-    private Map<AssetUri, AssetSource> overrides = Maps.newHashMap();
-    private Map<AssetType, AssetFactory<?, ?>> factories = Maps.newHashMap();
-    private Map<AssetType, Table<Name, Name, AssetUri>> uriLookup = Maps.newHashMap();
-    private ListMultimap<AssetType, AssetResolver<?, ?>> resolvers = ArrayListMultimap.create();
+    private ModuleEnvironment environment;//the file root archive location
+    private Map<Name, AssetSource> assetSources = Maps.newHashMap();//the png image's resource
+    private Map<AssetType, Map<String, AssetLoader<?>>> assetLoaders = Maps.newEnumMap(AssetType.class);//all kind of assetloader
+    private Map<AssetUri, Asset<?>> assetCache = Maps.newHashMap();//assetcache
+    private Map<AssetUri, AssetSource> overrides = Maps.newHashMap();//overrides
+    private Map<AssetType, AssetFactory<?, ?>> factories = Maps.newHashMap();//facotries
+    private Map<AssetType, Table<Name, Name, AssetUri>> uriLookup = Maps.newHashMap();//urilookup
+    private ListMultimap<AssetType, AssetResolver<?, ?>> resolvers = ArrayListMultimap.create();//path resolvers
 
     public AssetManager(ModuleEnvironment environment) {
         for (AssetType type : AssetType.values()) {
-            uriLookup.put(type, HashBasedTable.<Name, Name, AssetUri>create());
+            uriLookup.put(type, HashBasedTable.<Name, Name, AssetUri>create());//init an empty hashbasedtable name asseturi
         }
-        setEnvironment(environment);
+        setEnvironment(environment);//for the root path to search every assettype
     }
 
     public ModuleEnvironment getEnvironment() {
@@ -80,16 +80,16 @@ public class AssetManager {
 
     public void setEnvironment(ModuleEnvironment environment) {
         this.environment = environment;
-        assetSources.clear();
-        for (Module module : environment) {
-            Collection<Path> location = module.getLocations();
-            if (!location.isEmpty()) {
-                List<AssetSource> sources = Lists.newArrayList();
-                for (Path path : location) {
-                    sources.add(createAssetSource(module.getId(), path));
+        assetSources.clear();//cliear
+        for (Module module : environment) {//the enviroment advanced than module higher level
+            Collection<Path> location = module.getLocations();//get the location collections
+            if (!location.isEmpty()) {//location empty
+                List<AssetSource> sources = Lists.newArrayList();//lists.newArrayList
+                for (Path path : location) {//for the jar file or zip file
+                    sources.add(createAssetSource(module.getId(), path));//soures means directory or archive sources is temp list it will be third data
                 }
-                AssetSource source = new AssetSourceCollection(module.getId(), sources);
-                assetSources.put(source.getSourceId(), source);
+                AssetSource source = new AssetSourceCollection(module.getId(), sources);//soure is the second level data it contains the sources
+                assetSources.put(source.getSourceId(), source);//
 
                 for (AssetUri asset : source.list()) {
                     uriLookup.get(asset.getAssetType()).put(asset.getAssetName(), asset.getModuleName(), asset);
@@ -127,7 +127,7 @@ public class AssetManager {
         return resolveAll(type, new Name(name));
     }
 
-    public List<AssetUri> resolveAll(AssetType type, Name name) {
+    public List<AssetUri> resolveAll(AssetType type, Name name) {//type = Texture name = backgroundMenu
         List<AssetUri> results = Lists.newArrayList(uriLookup.get(type).row(name).values());
         for (AssetResolver<?, ?> resolver : resolvers.get(type)) {
             AssetUri additionalUri = resolver.resolve(name);
@@ -248,10 +248,10 @@ public class AssetManager {
         }
         return null;
     }
-
+    //every assettype corresponding a hashmap in assetloaders  assetloader is a hashMap key:assetType value: hashmap the hashMap key :extension  value:loader
     public void register(AssetType type, String extension, AssetLoader<?> loader) {
-        Map<String, AssetLoader<?>> assetTypeMap = assetLoaders.get(type);
-        if (assetTypeMap == null) {
+        Map<String, AssetLoader<?>> assetTypeMap = assetLoaders.get(type);//init assetLoaders's  assetTypeMap of corresponding assetType
+        if (assetTypeMap == null) {//init a new hashMap
             assetTypeMap = Maps.newHashMap();
             assetLoaders.put(type, assetTypeMap);
         }
@@ -259,7 +259,7 @@ public class AssetManager {
     }
 
     public <T extends Asset<?>> T tryLoadAsset(AssetUri uri, Class<T> type) {
-        Asset<?> result = loadAsset(uri, false);
+        Asset<?> result = loadAsset(uri, false);//Asset<?> means what? sound? prefab?
         if (type.isInstance(result)) {
             return type.cast(result);
         }
@@ -270,7 +270,7 @@ public class AssetManager {
         return loadAsset(uri, true);
     }
 
-    public <D extends AssetData> void reload(Asset<D> asset) {
+    public <D extends AssetData> void reload(Asset<D> asset) {// according to asset's uri to load data and asset reload data
         AssetData data = loadAssetData(asset.getURI(), false);
         if (data != null) {
             asset.reload((D) data);
@@ -305,21 +305,21 @@ public class AssetManager {
             }
 
             String extension = url.toString().substring(extensionIndex + 1).toLowerCase(Locale.ENGLISH);
-            Map<String, AssetLoader<?>> extensionMap = assetLoaders.get(uri.getAssetType());
+            Map<String, AssetLoader<?>> extensionMap = assetLoaders.get(uri.getAssetType());//the assettype maybe the prefab block they may be only one arccording to assettype to get the all extensions
             if (extensionMap == null) {
                 continue;
             }
 
-            AssetLoader<?> loader = extensionMap.get(extension);
+            AssetLoader<?> loader = extensionMap.get(extension);//e.g.  blockloader
             if (loader == null) {
                 continue;
             }
 
-            Module module = environment.get(uri.getModuleName());
+            Module module = environment.get(uri.getModuleName());//e.g. core
             List<URL> deltas;
-            if (uri.getAssetType().isDeltaSupported()) {
+            if (uri.getAssetType().isDeltaSupported()) {//core:block:water
                 deltas = Lists.newArrayList();
-                for (Module deltaModule : environment.getModulesOrderedByDependencies()) {
+                for (Module deltaModule : environment.getModulesOrderedByDependencies()) {//deltas is δ means unknown variable
                     AssetSource source = assetSources.get(deltaModule.getId());
                     if (source != null) {
                         deltas.addAll(source.getDelta(uri));
