@@ -27,7 +27,7 @@ import javax.vecmath.Vector3f;
  *
  * @author Benjamin Glatzel <benjamin.glatzel@me.com>
  */
-public interface WorldProvider extends WorldProviderCore {
+public interface WorldProvider extends WorldProviderCore {//worldprovider是整个世界的根据位置获取温度 湿度  方块 液体块的统一接口
 
     /**
      * An active block is in a chunk that is available and fully generated.

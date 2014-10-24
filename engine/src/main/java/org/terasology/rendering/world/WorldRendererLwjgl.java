@@ -101,93 +101,93 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
  * @author Benjamin Glatzel <benjamin.glatzel@me.com>
  */
 public final class WorldRendererLwjgl implements WorldRenderer {
-    public static final int MAX_ANIMATED_CHUNKS = 64;
-    public static final int MAX_BILLBOARD_CHUNKS = 64;
-    public static final int VERTICAL_SEGMENTS = CoreRegistry.get(Config.class).getSystem().getVerticalChunkMeshSegments();
+    public static final int MAX_ANIMATED_CHUNKS = 64;//animated donghua
+    public static final int MAX_BILLBOARD_CHUNKS = 64;//billboard guanggaopai
+    public static final int VERTICAL_SEGMENTS = CoreRegistry.get(Config.class).getSystem().getVerticalChunkMeshSegments();//4 split in vertical each chunk was split into 4 section in vertical direction
 
-    private static final int MAX_CHUNKS = ViewDistance.MEGA.getChunkDistance() * ViewDistance.MEGA.getChunkDistance();
+    private static final int MAX_CHUNKS = ViewDistance.MEGA.getChunkDistance() * ViewDistance.MEGA.getChunkDistance();//the max ammount of chunks
 
     private static final Logger logger = LoggerFactory.getLogger(WorldRendererLwjgl.class);
 
-    private static final int SHADOW_FRUSTUM_BOUNDS = 500;
+    private static final int SHADOW_FRUSTUM_BOUNDS = 500;// the bound 
 
     /* WORLD PROVIDER */
-    private final WorldProvider worldProvider;
-    private ChunkProvider chunkProvider;
+    private final WorldProvider worldProvider;//?
+    private ChunkProvider chunkProvider;//chunkprovider
 
     /* PLAYER */
-    private LocalPlayer player;
+    private LocalPlayer player;//first person
 
     /* CAMERA */
-    private Camera localPlayerCamera;
-    private Camera activeCamera;
+    private Camera localPlayerCamera;//person's camera
+    private Camera activeCamera;//? acutally is localplayercamera
 
-    /* SHADOW MAPPING */
+    /* SHADOW MAPPING *///ortho width height zfar znear
     private Camera lightCamera = new OrthographicCamera(-SHADOW_FRUSTUM_BOUNDS, SHADOW_FRUSTUM_BOUNDS, SHADOW_FRUSTUM_BOUNDS, -SHADOW_FRUSTUM_BOUNDS);
 
     /* LIGHTING */
     // TODO: Review this? (What are we doing with a component not attached to an entity?)
-    private LightComponent mainDirectionalLight = new LightComponent();
+    private LightComponent mainDirectionalLight = new LightComponent();//the main light
     private float smoothedPlayerSunlightValue;
 
     /* CHUNKS */
-    private ChunkTessellator chunkTessellator;
-    private boolean pendingChunks;
-    private final List<ChunkImpl> chunksInProximity = Lists.newArrayListWithCapacity(MAX_CHUNKS);
-    private int chunkPosX;
-    private int chunkPosZ;
+    private ChunkTessellator chunkTessellator;//曲面细分
+    private boolean pendingChunks;//daiding chunks
+    private final List<ChunkImpl> chunksInProximity = Lists.newArrayListWithCapacity(MAX_CHUNKS);//chunks around person
+    private int chunkPosX;//the person in chunk 's position x
+    private int chunkPosZ;//the person in chunk 's position x
 
     /* RENDERING */
-    private final PriorityQueue<ChunkImpl> renderQueueChunksOpaque = new PriorityQueue<>(MAX_CHUNKS, new ChunkFrontToBackComparator());
-    private final PriorityQueue<ChunkImpl> renderQueueChunksOpaqueShadow = new PriorityQueue<>(MAX_CHUNKS, new ChunkFrontToBackComparator());
-    private final PriorityQueue<ChunkImpl> renderQueueChunksOpaqueReflection = new PriorityQueue<>(MAX_CHUNKS, new ChunkFrontToBackComparator());
-    private final PriorityQueue<ChunkImpl> renderQueueChunksAlphaReject = new PriorityQueue<>(MAX_CHUNKS, new ChunkFrontToBackComparator());
-    private final PriorityQueue<ChunkImpl> renderQueueChunksAlphaBlend = new PriorityQueue<>(MAX_CHUNKS, new ChunkBackToFrontComparator());
+    private final PriorityQueue<ChunkImpl> renderQueueChunksOpaque = new PriorityQueue<>(MAX_CHUNKS, new ChunkFrontToBackComparator());//render opaque chunk
+    private final PriorityQueue<ChunkImpl> renderQueueChunksOpaqueShadow = new PriorityQueue<>(MAX_CHUNKS, new ChunkFrontToBackComparator());//render opaque chunks's shadow
+    private final PriorityQueue<ChunkImpl> renderQueueChunksOpaqueReflection = new PriorityQueue<>(MAX_CHUNKS, new ChunkFrontToBackComparator());//render need reflection chunks
+    private final PriorityQueue<ChunkImpl> renderQueueChunksAlphaReject = new PriorityQueue<>(MAX_CHUNKS, new ChunkFrontToBackComparator());//render alpha & reject billboard
+    private final PriorityQueue<ChunkImpl> renderQueueChunksAlphaBlend = new PriorityQueue<>(MAX_CHUNKS, new ChunkBackToFrontComparator());//water?
 
-    private WorldRenderingStage currentRenderingStage = WorldRenderingStage.DEFAULT;
+    private WorldRenderingStage currentRenderingStage = WorldRenderingStage.DEFAULT;//rendering stage 
 
     /* HORIZON */
-    private final Skysphere skysphere;
+    private final Skysphere skysphere;//地平线
 
     /* TICKING */
-    private Time time = CoreRegistry.get(Time.class);
-    private float tick;
+    private Time time = CoreRegistry.get(Time.class);//time
+    private float tick;//tick
 
     /* UPDATING */
-    private final ChunkUpdateManager chunkUpdateManager;
+    private final ChunkUpdateManager chunkUpdateManager;//update manager
 
     /* EVENTS */
     private final WorldTimeEventManager worldTimeEventManager;
 
     /* PHYSICS */
     // TODO: Remove physics handling from world renderer
-    private final BulletPhysics bulletPhysics;
+    private final BulletPhysics bulletPhysics;//collision
 
     /* STATISTICS */
-    private int statDirtyChunks;
-    private int statVisibleChunks;
-    private int statIgnoredPhases;
-    private int statChunkMeshEmpty;
-    private int statChunkNotReady;
-    private int statRenderedTriangles;
+    private int statDirtyChunks;// dirty
+    private int statVisibleChunks;// visible
+    private int statIgnoredPhases;//ignored phases
+    private int statChunkMeshEmpty;//
+    private int statChunkNotReady;//
+    private int statRenderedTriangles;//
 
     /* ENUMS */
     public enum ChunkRenderMode {
-        DEFAULT,
-        REFLECTION,
-        SHADOW_MAP,
-        Z_PRE_PASS
+        DEFAULT,//fanshe
+        REFLECTION,//fanse
+        SHADOW_MAP,//shadow
+        Z_PRE_PASS//
     }
 
-    private ComponentSystemManager systemManager;
-    private Config config;
+    private ComponentSystemManager systemManager;//systemmanager
+    private Config config;//peizhi
 
     /**
      * Initializes a new (local) world for the single player mode.
-     */
+     *///struct function
     public WorldRendererLwjgl(WorldProvider worldProvider, ChunkProvider chunkProvider, LocalPlayerSystem localPlayerSystem, GLBufferPool bufferPool) {
-        this.chunkProvider = chunkProvider;
-        this.worldProvider = worldProvider;
+        this.chunkProvider = chunkProvider;//localchunkprovider
+        this.worldProvider = worldProvider;//
         bulletPhysics = new BulletPhysics(worldProvider);
         chunkTessellator = new ChunkTessellator(worldProvider, bufferPool);
         skysphere = new Skysphere(this);
@@ -197,16 +197,16 @@ public final class WorldRendererLwjgl implements WorldRenderer {
         // TODO: won't need localPlayerSystem here once camera is in the ES proper
         systemManager = CoreRegistry.get(ComponentSystemManager.class);
         if (CoreRegistry.get(Config.class).getRendering().isOculusVrSupport()) {
-            localPlayerCamera = new OculusStereoCamera();
+            localPlayerCamera = new OculusStereoCamera();//裸眼3d镜头
         } else {
             localPlayerCamera = new PerspectiveCamera(CoreRegistry.get(Config.class).getRendering().getCameraSettings());
         }
-        activeCamera = localPlayerCamera;
+        activeCamera = localPlayerCamera;//active = localplayer
 
-        mainDirectionalLight.lightType = LightComponent.LightType.DIRECTIONAL;
+        mainDirectionalLight.lightType = LightComponent.LightType.DIRECTIONAL;//set the mainDirectionalLight
         mainDirectionalLight.lightColorAmbient = new Vector3f(1.0f, 1.0f, 1.0f);
         mainDirectionalLight.lightColorDiffuse = new Vector3f(1.0f, 1.0f, 1.0f);
-        mainDirectionalLight.lightAmbientIntensity = 1.0f;
+        mainDirectionalLight.lightAmbientIntensity = 1.0f;//the Intensity of light
         mainDirectionalLight.lightDiffuseIntensity = 2.0f;
         mainDirectionalLight.lightSpecularIntensity = 0.0f;
 
@@ -697,8 +697,8 @@ public final class WorldRendererLwjgl implements WorldRenderer {
         /*
          * LIGHT GEOMETRY PASS
          */
-        DefaultRenderingProcess.getInstance().beginRenderLightGeometry();
-        program = Assets.getMaterial("engine:prog.lightGeometryPass");
+        DefaultRenderingProcess.getInstance().beginRenderLightGeometry();//开始绘画灯光
+        program = Assets.getMaterial("engine:prog.lightGeometryPass");//获取灯光绘画程序
         for (EntityRef entity : entityManager.getEntitiesWith(LightComponent.class, LocationComponent.class)) {
             LocationComponent locationComponent = entity.getComponent(LocationComponent.class);
             LightComponent lightComponent = entity.getComponent(LightComponent.class);

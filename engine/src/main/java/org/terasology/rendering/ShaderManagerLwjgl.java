@@ -106,7 +106,7 @@ public class ShaderManagerLwjgl implements ShaderManager {
         defaultTexturedShaderProgram = prepareAndStoreShaderProgramInstance("defaultTextured", new ShaderParametersDefault());
 
         // TODO: Find a better way to do this
-        prepareAndStoreShaderProgramInstance("post", new ShaderParametersPost());
+        prepareAndStoreShaderProgramInstance("post", new ShaderParametersPost());//ShaderParametersPost是参数
         prepareAndStoreShaderProgramInstance("ssao", new ShaderParametersSSAO());
         prepareAndStoreShaderProgramInstance("lightshaft", new ShaderParametersLightShaft());
         prepareAndStoreShaderProgramInstance("sobel", new ShaderParametersSobel());
