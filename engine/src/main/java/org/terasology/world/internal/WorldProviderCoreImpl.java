@@ -147,7 +147,7 @@ public class WorldProviderCoreImpl implements WorldProviderCore {
 
     @Override
     public boolean isBlockRelevant(int x, int y, int z) {
-        return chunkProvider.isChunkReady(TeraMath.calcChunkPos(x, y, z));
+        return chunkProvider.isChunkReady(TeraMath.calcChunkPos(x, y, z));//localchunkprovider
     }
 
     @Override

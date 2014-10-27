@@ -32,7 +32,7 @@ import org.terasology.persistence.serializers.EntitySerializer;
  */
 public abstract class EntityRef implements MutableComponentContainer {
 
-    public static final EntityRef NULL = NullEntityRef.getInstance();
+    public static final EntityRef NULL = NullEntityRef.getInstance();//kong
 
     /**
      * Copies this entity, creating a new entity with identical components.
@@ -40,7 +40,7 @@ public abstract class EntityRef implements MutableComponentContainer {
      * with multiple entities owning the same entities.
      * @return A copy of this entity.
      */
-    public abstract EntityRef copy();
+    public abstract EntityRef copy();//
 
     /**
      * @return Does this entity exist - that is, is not deleted.
@@ -94,34 +94,34 @@ public abstract class EntityRef implements MutableComponentContainer {
      *
      * @param alwaysRelevant
      */
-    public abstract void setAlwaysRelevant(boolean alwaysRelevant);
+    public abstract void setAlwaysRelevant(boolean alwaysRelevant);//shezhi zongshi guanlian
 
     /**
      * @return The owning entity of this entity
      */
-    public abstract EntityRef getOwner();
+    public abstract EntityRef getOwner();//huo qu yongyou zhe
 
     /**
      * Sets the entity that owns this entity.
      *
      * @param owner
      */
-    public abstract void setOwner(EntityRef owner);
+    public abstract void setOwner(EntityRef owner);//shezhi yongyouzhe
 
     /**
      * @return The prefab this entity is based off of
      */
-    public abstract Prefab getParentPrefab();
+    public abstract Prefab getParentPrefab();//prefab 是entity de  jichu
 
     /**
      * @return The AssetUri of this entity's prefab, or null if it isn't based on an entity.
      */
-    public abstract AssetUri getPrefabURI();
+    public abstract AssetUri getPrefabURI();//the uri in assetmanager
 
     /**
      * @return A full, json style description of the entity.
      */
-    public String toFullDescription() {
+    public String toFullDescription() {//json geshi de string miaoshu
         EntitySerializer serializer = new EntitySerializer((EngineEntityManager) CoreRegistry.get(EntityManager.class));
         serializer.setUsingFieldIds(false);
         return EntityDataJSONFormat.write(serializer.serialize(this));

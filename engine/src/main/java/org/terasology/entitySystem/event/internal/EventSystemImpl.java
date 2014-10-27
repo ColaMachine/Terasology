@@ -131,14 +131,14 @@ public class EventSystemImpl implements EventSystem {
 
     @Override
     public void registerEventHandler(ComponentSystem handler) {
-        Class handlerClass = handler.getClass();
+        Class handlerClass = handler.getClass();//CameraTargetSystem
         if (!Modifier.isPublic(handlerClass.getModifiers())) {
             logger.error("Cannot register handler {}, must be public", handler.getClass().getName());
             return;
         }
 
         logger.debug("Registering event handler " + handlerClass.getName());
-        for (Method method : handlerClass.getMethods()) {
+        for (Method method : handlerClass.getMethods()) {//consolesystem
             ReceiveEvent receiveEventAnnotation = method.getAnnotation(ReceiveEvent.class);
             if (receiveEventAnnotation != null) {
                 if (!receiveEventAnnotation.netFilter().isValidFor(networkSystem.getMode(), false)) {
@@ -146,7 +146,7 @@ public class EventSystemImpl implements EventSystem {
                 }
                 Set<Class<? extends Component>> requiredComponents = Sets.newLinkedHashSet();
                 method.setAccessible(true);
-                Class<?>[] types = method.getParameterTypes();
+                Class<?>[] types = method.getParameterTypes();//messageevent entityref
 
                 logger.debug("Found method: " + method.toString());
                 if (!Event.class.isAssignableFrom(types[0]) || !EntityRef.class.isAssignableFrom(types[1])) {
@@ -154,7 +154,7 @@ public class EventSystemImpl implements EventSystem {
                     return;
                 }
 
-                requiredComponents.addAll(Arrays.asList(receiveEventAnnotation.components()));
+                requiredComponents.addAll(Arrays.asList(receiveEventAnnotation.components()));//注解的components
                 List<Class<? extends Component>> componentParams = Lists.newArrayList();
                 for (int i = 2; i < types.length; ++i) {
                     if (!Component.class.isAssignableFrom(types[i])) {
@@ -202,19 +202,19 @@ public class EventSystemImpl implements EventSystem {
             for (Class<? extends Component> c : components) {
                 addToComponentSpecificHandlers(type, handler, c);
                 for (Class<? extends Event> childType : childEvents.get(type)) {
-                    addToComponentSpecificHandlers(childType, handler, c);
+                    addToComponentSpecificHandlers(childType, handler, c);//chatmessageevent bytecodeeventhandler clientcomponent  messageevent consolemessageevent clientcompoent
                 }
             }
         }
     }
 
     private void addToComponentSpecificHandlers(Class<? extends Event> type, EventHandlerInfo handlerInfo, Class<? extends Component> c) {
-        SetMultimap<Class<? extends Component>, EventHandlerInfo> componentMap = componentSpecificHandlers.get(type);
+        SetMultimap<Class<? extends Component>, EventHandlerInfo> componentMap = componentSpecificHandlers.get(type);//type = messageevent
         if (componentMap == null) {
             componentMap = HashMultimap.create();
-            componentSpecificHandlers.put(type, componentMap);
+            componentSpecificHandlers.put(type, componentMap);//初始化
         }
-        componentMap.put(c, handlerInfo);
+        componentMap.put(c, handlerInfo);//c= clientcomponent  bytecodeeventhandler
     }
 
     @Override

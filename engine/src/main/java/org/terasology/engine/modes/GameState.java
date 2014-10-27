@@ -37,5 +37,5 @@ public interface GameState {//mainmenu state game state stop state
     /**
      * @return Whether the game should hibernate when it loses focus
      */
-    boolean isHibernationAllowed();
+    boolean isHibernationAllowed();//是否冬眠
 }

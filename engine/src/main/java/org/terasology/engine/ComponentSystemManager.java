@@ -39,10 +39,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Simple manager for component systems.
+ * Simple manager for component systems.简单的组件管理系统
  * The manager takes care of registering systems with the Core Registry (if they are marked as shared), initialising them
- * and unloading them.
- * The ComponentSystemManager has two states:
+ * and unloading them.管理组件的注册和卸载
+ * The ComponentSystemManager has two states:有两个状态 不活动状态和活动状态
  * <ul>
  * <li>Inactive: In this state the registered systems are created, but not initialised</li>
  * <li>Active: In this state all the registered systems are initialised</li>
@@ -55,23 +55,23 @@ public class ComponentSystemManager {
 
     private static final Logger logger = LoggerFactory.getLogger(ComponentSystemManager.class);
 
-    private Map<String, ComponentSystem> namedLookup = Maps.newHashMap();
-    private List<UpdateSubscriberSystem> updateSubscribers = Lists.newArrayList();
-    private List<RenderSystem> renderSubscribers = Lists.newArrayList();
-    private List<ComponentSystem> store = Lists.newArrayList();
+    private Map<String, ComponentSystem> namedLookup = Maps.newHashMap();//所有组件系统
+    private List<UpdateSubscriberSystem> updateSubscribers = Lists.newArrayList();//所有的根系注册
+    private List<RenderSystem> renderSubscribers = Lists.newArrayList();//渲染注册器
+    private List<ComponentSystem> store = Lists.newArrayList();//组件系统
 
-    private Console console;
+    private Console console;//控制台
 
-    private boolean initialised;
+    private boolean initialised;//是否初始化
 
     public ComponentSystemManager() {
     }
 
-    public void loadSystems(ModuleEnvironment environment, NetworkMode netMode) {
-        DisplayDevice displayDevice = CoreRegistry.get(DisplayDevice.class);
-        boolean isHeadless = displayDevice.isHeadless();
+    public void loadSystems(ModuleEnvironment environment, NetworkMode netMode) {//加载系统
+        DisplayDevice displayDevice = CoreRegistry.get(DisplayDevice.class);//显示设备
+        boolean isHeadless = displayDevice.isHeadless();//是否无上文
 
-        ListMultimap<Name, Class<?>> systemsByModule = ArrayListMultimap.create();
+        ListMultimap<Name, Class<?>> systemsByModule = ArrayListMultimap.create();//创建listmultimap
         for (Class<?> type : environment.getTypesAnnotatedWith(RegisterSystem.class)) {
             if (!ComponentSystem.class.isAssignableFrom(type)) {
                 logger.error("Cannot load {}, must be a subclass of ComponentSystem", type.getSimpleName());
@@ -101,14 +101,14 @@ public class ComponentSystemManager {
     }
 
     public void register(ComponentSystem object) {
-        store.add(object);
+        store.add(object);//cameraTargetSystem
         if (object instanceof UpdateSubscriberSystem) {
             updateSubscribers.add((UpdateSubscriberSystem) object);
         }
         if (object instanceof RenderSystem) {
             renderSubscribers.add((RenderSystem) object);
         }
-        CoreRegistry.get(EntityManager.class).getEventSystem().registerEventHandler(object);
+        CoreRegistry.get(EntityManager.class).getEventSystem().registerEventHandler(object);//pojoentitymanager
 
         if (initialised) {
             initialiseSystem(object);
@@ -116,7 +116,7 @@ public class ComponentSystemManager {
     }
 
     public void register(ComponentSystem object, String name) {
-        namedLookup.put(name, object);
+        namedLookup.put(name, object);//engine:cameratargetsystem consolesystem from statemainmenu
         register(object);
     }
 

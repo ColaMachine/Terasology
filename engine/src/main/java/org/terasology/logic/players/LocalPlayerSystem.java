@@ -105,8 +105,8 @@ public class LocalPlayerSystem extends BaseComponentSystem implements UpdateSubs
         LocationComponent location = entity.getComponent(LocationComponent.class);
 
 
-        processInput(entity, characterComp, characterMovementComponent);
-        updateCamera(characterComp, characterMovementComponent, characterComp, location);
+        processInput(entity, characterComp, characterMovementComponent);//处理输入
+        updateCamera(characterComp, characterMovementComponent, characterComp, location);//更新摄像机
 
         // Hand animation update
         characterComp.handAnimation = Math.max(0, characterComp.handAnimation - 2.5f * delta);
