@@ -84,7 +84,7 @@ public class StateMainMenu implements GameState {
 
         CameraTargetSystem cameraTargetSystem = new CameraTargetSystem();
         CoreRegistry.put(CameraTargetSystem.class, cameraTargetSystem);
-        componentSystemManager.register(cameraTargetSystem, "engine:CameraTargetSystem");
+        componentSystemManager.register(cameraTargetSystem, "engine:CameraTargetSystem");//注册摄像机系统
         componentSystemManager.register(new ConsoleSystem(), "engine:ConsoleSystem");
         componentSystemManager.register(new CoreCommands(), "engine:CoreCommands");
 

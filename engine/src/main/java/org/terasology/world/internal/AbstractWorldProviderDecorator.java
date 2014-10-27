@@ -80,8 +80,8 @@ public class AbstractWorldProviderDecorator implements WorldProviderCore {
     }
 
     @Override
-    public boolean isBlockRelevant(int x, int y, int z) {
-        return base.isBlockRelevant(x, y, z);
+    public boolean isBlockRelevant(int x, int y, int z) {//this= entityawareworldprovider
+        return base.isBlockRelevant(x, y, z);//worldprovidercoreimpl  worldprovidercoreimpl
     }
 
     @Override

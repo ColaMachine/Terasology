@@ -19,18 +19,18 @@ import org.terasology.config.Config;
 import org.terasology.engine.ComponentSystemManager;
 import org.terasology.engine.modes.GameState;
 
-public interface EngineSubsystem {
-    void preInitialise();
+public interface EngineSubsystem {//所有引擎的父接口
+    void preInitialise();//初始化准备
 
-    void postInitialise(Config config);
+    void postInitialise(Config config);//初始化
 
-    void preUpdate(GameState currentState, float delta);
+    void preUpdate(GameState currentState, float delta);//准备更新
 
-    void postUpdate(GameState currentState, float delta);
+    void postUpdate(GameState currentState, float delta);//更新
 
-    void shutdown(Config config);
+    void shutdown(Config config);//关闭
 
-    void dispose();
+    void dispose();//取消
 
-    void registerSystems(ComponentSystemManager componentSystemManager);
+    void registerSystems(ComponentSystemManager componentSystemManager);//注册 lwjglgraphics lwjglinput都没有使用到这个
 }

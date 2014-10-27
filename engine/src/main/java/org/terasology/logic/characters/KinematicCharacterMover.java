@@ -56,58 +56,58 @@ import javax.vecmath.Vector3f;
  *
  * @author Immortius
  */
-public class KinematicCharacterMover implements CharacterMover {
+public class KinematicCharacterMover implements CharacterMover {//Kinematic 运动 特征 移动
 
-    public static final float CLIMB_GRAVITY = 0f;
-    public static final float GHOST_INERTIA = 4f;
-    public static final float GRAVITY = 28.0f;
-    public static final float TERMINAL_VELOCITY = 64.0f;
-    public static final float UNDERWATER_GRAVITY = 0.25f;
-    public static final float UNDERWATER_INERTIA = 2.0f;
+    public static final float CLIMB_GRAVITY = 0f;//爬行 重力加速度
+    public static final float GHOST_INERTIA = 4f;//鬼魂惯性
+    public static final float GRAVITY = 28.0f;//重力加速度
+    public static final float TERMINAL_VELOCITY = 64.0f;//终端 速度
+    public static final float UNDERWATER_GRAVITY = 0.25f;//水下重力加速度
+    public static final float UNDERWATER_INERTIA = 2.0f;//水下惯性
 
     /**
      * The amount of horizontal penetration to allow.
      */
-    private static final float HORIZONTAL_PENETRATION = 0.03f;
+    private static final float HORIZONTAL_PENETRATION = 0.03f;//水平穿透
 
     /**
      * The amount of extra distance added to horizontal movement to allow for penetration.
      */
-    private static final float HORIZONTAL_PENETRATION_LEEWAY = 0.04f;
+    private static final float HORIZONTAL_PENETRATION_LEEWAY = 0.04f;//水平穿透 回旋余地
 
     /**
      * The amount of vertical penetration to allow.
      */
-    private static final float VERTICAL_PENETRATION = 0.04f;
+    private static final float VERTICAL_PENETRATION = 0.04f;//垂直 渗透
 
     /**
      * The amount of extra distance added to vertical movement to allow for penetration.
      */
-    private static final float VERTICAL_PENETRATION_LEEWAY = 0.05f;
-    private static final float CHECK_FORWARD_DIST = 0.05f;
+    private static final float VERTICAL_PENETRATION_LEEWAY = 0.05f;//垂直 渗透 回旋余地
+    private static final float CHECK_FORWARD_DIST = 0.05f;//检查前进的距离
 
-    private final Logger logger = LoggerFactory.getLogger(KinematicCharacterMover.class);
-    private boolean stepped;
+    private final Logger logger = LoggerFactory.getLogger(KinematicCharacterMover.class);//
+    private boolean stepped;//
 
     // Processing state variables
-    private float steppedUpDist;
-    private WorldProvider worldProvider;
-    private PhysicsEngine physics;
+    private float steppedUpDist;//阶梯向上距离
+    private WorldProvider worldProvider;//
+    private PhysicsEngine physics;//物理引擎
 
     public KinematicCharacterMover(WorldProvider wp, PhysicsEngine physicsEngine) {
         this.worldProvider = wp;
         physics = physicsEngine;
     }
 
-    @Override
-    public CharacterStateEvent step(CharacterStateEvent initial, CharacterMoveInputEvent input, EntityRef entity) {
+    @Override//一个初始化input 一个输入量input 和当前主控单位。
+    public CharacterStateEvent step(CharacterStateEvent initial, CharacterMoveInputEvent input, EntityRef entity) {//pojoentityref
         CharacterMovementComponent characterMovementComponent = entity.getComponent(CharacterMovementComponent.class);
-        CharacterStateEvent result = new CharacterStateEvent(initial);
-        result.setSequenceNumber(input.getSequenceNumber());
-        if (worldProvider.isBlockRelevant(initial.getPosition())) {
-            updatePosition(characterMovementComponent, result, input, entity);
+        CharacterStateEvent result = new CharacterStateEvent(initial); //复制一份变量
+        result.setSequenceNumber(input.getSequenceNumber());//设置序列号
+        if (worldProvider.isBlockRelevant(initial.getPosition())) {//当前的位置的chunk是否已经准备完毕了 是否和方块关联了worldproviderwrapper
+            updatePosition(characterMovementComponent, result, input, entity);//更新位置
 
-            if (input.isFirstRun()) {
+            if (input.isFirstRun()) {//if it is first run
                 checkBlockEntry(entity, new Vector3i(initial.getPosition(), 0.5f), new Vector3i(result.getPosition(), 0.5f), characterMovementComponent.height);
             }
 
@@ -135,26 +135,26 @@ public class KinematicCharacterMover implements CharacterMover {
     private void checkBlockEntry(EntityRef entity, Vector3i oldPosition, Vector3i newPosition, float characterHeight) {
         // TODO: This will only work for tall mobs/players and single block mobs
         // is this a different position than previously
-        if (!oldPosition.equals(newPosition)) {
+        if (!oldPosition.equals(newPosition)) {//如果旧的位置不等于新的位置 旧开始判断
             // get the old position's blocks
-            Block[] oldBlocks = new Block[(int) Math.ceil(characterHeight)];
-            Vector3i currentPosition = oldPosition.clone();
+            Block[] oldBlocks = new Block[(int) Math.ceil(characterHeight)];//创建脚底下的方块的数组
+            Vector3i currentPosition = oldPosition.clone();//克隆当前位置
             for (int currentHeight = 0; currentHeight < oldBlocks.length; currentHeight++) {
-                oldBlocks[currentHeight] = worldProvider.getBlock(currentPosition);
-                currentPosition.add(0, 1, 0);
+                oldBlocks[currentHeight] = worldProvider.getBlock(currentPosition);//当前位置
+                currentPosition.add(0, 1, 0);//当前位置++
             }
 
             // get the new position's blocks
-            Block[] newBlocks = new Block[(int) Math.ceil(characterHeight)];
-            currentPosition = newPosition.clone();
-            for (int currentHeight = 0; currentHeight < characterHeight; currentHeight++) {
-                newBlocks[currentHeight] = worldProvider.getBlock(currentPosition);
-                currentPosition.add(0, 1, 0);
+            Block[] newBlocks = new Block[(int) Math.ceil(characterHeight)];//
+            currentPosition = newPosition.clone();//
+            for (int currentHeight = 0; currentHeight < characterHeight; currentHeight++) {//
+                newBlocks[currentHeight] = worldProvider.getBlock(currentPosition);//
+                currentPosition.add(0, 1, 0);//
             }
 
-            for (int i = 0; i < characterHeight; i++) {
+            for (int i = 0; i < characterHeight; i++) {//
                 // send a block enter/leave event for this character
-                entity.send(new OnEnterBlockEvent(oldBlocks[i], newBlocks[i], new Vector3i(0, i, 0)));
+                entity.send(new OnEnterBlockEvent(oldBlocks[i], newBlocks[i], new Vector3i(0, i, 0)));//不知道干什么用的
             }
         }
     }
@@ -178,11 +178,11 @@ public class KinematicCharacterMover implements CharacterMover {
         Vector3f worldPos = state.getPosition();
         Vector3f top = new Vector3f(worldPos);
         Vector3f bottom = new Vector3f(worldPos);
-        top.y += 0.25f * movementComp.height;
-        bottom.y -= 0.25f * movementComp.height;
+        top.y += 0.25f * movementComp.height;//缩小4分之1
+        bottom.y -= 0.25f * movementComp.height;//缩小4分之1也就是高度是2分1
 
-        final boolean topUnderwater = worldProvider.getBlock(top).isLiquid();
-        final boolean bottomUnderwater = worldProvider.getBlock(bottom).isLiquid();
+        final boolean topUnderwater = worldProvider.getBlock(top).isLiquid();//头在水下
+        final boolean bottomUnderwater = worldProvider.getBlock(bottom).isLiquid();//脚在水下
 
         final boolean newSwimming = topUnderwater && bottomUnderwater;
         boolean newClimbing = false;
@@ -575,17 +575,17 @@ public class KinematicCharacterMover implements CharacterMover {
         Vector3f desiredVelocity = new Vector3f(input.getMovementDirection());
         float lengthSquared = desiredVelocity.lengthSquared();
         if (lengthSquared > 1) {
-            desiredVelocity.normalize();
+            desiredVelocity.normalize();//scale the vector into lengthsquared =1
         }
-        float maxSpeed = getMaxSpeed(entity, MovementMode.SWIMMING, movementComp.maxWaterSpeed);
+        float maxSpeed = getMaxSpeed(entity, MovementMode.SWIMMING, movementComp.maxWaterSpeed);//get the max speed
         if (input.isRunning()) {
-            maxSpeed *= movementComp.runFactor;
+            maxSpeed *= movementComp.runFactor;// if run the maxspeed can be faster 1.5
         }
-        desiredVelocity.scale(maxSpeed);
-        desiredVelocity.y -= UNDERWATER_GRAVITY;
+        desiredVelocity.scale(maxSpeed);// so the maxSpeed is in direction
+        desiredVelocity.y -= UNDERWATER_GRAVITY;//the earth gravity
 
         // Modify velocity towards desired, up to the maximum rate determined by friction
-        Vector3f velocityDiff = new Vector3f(desiredVelocity);
+        Vector3f velocityDiff = new Vector3f(desiredVelocity);//
         velocityDiff.sub(state.getVelocity());
         velocityDiff.scale(Math.min(UNDERWATER_INERTIA * input.getDelta(), 1.0f));
         state.getVelocity().x += velocityDiff.x;
@@ -618,7 +618,7 @@ public class KinematicCharacterMover implements CharacterMover {
             }
         }
     }
-
+    //主要的位置更新
     private void updatePosition(final CharacterMovementComponent movementComp, final CharacterStateEvent state,
                                 CharacterMoveInputEvent input, EntityRef entity) {
         switch (state.getMode()) {

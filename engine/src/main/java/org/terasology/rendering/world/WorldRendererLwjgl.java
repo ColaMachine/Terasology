@@ -566,7 +566,7 @@ public final class WorldRendererLwjgl implements WorldRenderer {
         glDepthMask(false);
 
         for (RenderSystem renderer : systemManager.iterateRenderSubscribers()) {
-            renderer.renderAlphaBlend();
+            //renderer.renderAlphaBlend();
         }
 
         glDisable(GL_BLEND);
