@@ -748,7 +748,7 @@ public final class WorldRendererLwjgl implements WorldRenderer {
 
     private boolean renderLightComponent(LightComponent lightComponent, Vector3f lightWorldPosition, Material program, Camera camera, boolean geometryOnly) {
         Vector3f positionViewSpace = new Vector3f();
-        positionViewSpace.sub(lightWorldPosition, activeCamera.getPosition());
+        positionViewSpace.sub(lightWorldPosition, activeCamera.getPosition());//世界位置-相机当前位置
 
         boolean doRenderLight = lightComponent.lightType == LightComponent.LightType.DIRECTIONAL
                 || lightComponent.lightRenderingDistance == 0.0f

@@ -28,7 +28,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * @author Immortius
  */
-public abstract class BaseLwjglSubsystem implements EngineSubsystem {
+public abstract class BaseLwjglSubsystem implements EngineSubsystem {//
 
     private static final Logger logger = LoggerFactory.getLogger(BaseLwjglSubsystem.class);
     private static boolean initialised;

@@ -52,15 +52,15 @@ public class GLBufferPool {
             IntBuffer buffer = BufferUtils.createIntBuffer(BUFFER_FETCH_SIZE);
             GL15.glGenBuffers(buffer);
             for (int i = 0; i < BUFFER_FETCH_SIZE; ++i) {
-                pool.add(buffer.get(i));
+                pool.add(buffer.get(i));//存入列表号码
             }
-            totalPoolSize += BUFFER_FETCH_SIZE;
+            totalPoolSize += BUFFER_FETCH_SIZE;//means totalPoolSize= BUFFER_FETCH_SIZE
         }
 
         int result = pool.removeAt(pool.size() - 1);
         if (traceBufferUsage) {
-            usageTracker.put(result, forUseBy);
-        }
+            usageTracker.put(result, forUseBy);//用的列表里存入他
+        }	
         return result;
     }
 
@@ -74,7 +74,7 @@ public class GLBufferPool {
             dataBuffer.flip();
 
             if (traceBufferUsage) {
-                usageTracker.remove(buffer);
+                usageTracker.remove(buffer);//在使用 map中取消他
             }
         }
     }

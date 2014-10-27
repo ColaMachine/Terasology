@@ -25,29 +25,29 @@ import java.util.concurrent.atomic.AtomicLong;
 public abstract class TimeBase implements EngineTime {
 
     private static final Logger logger = LoggerFactory.getLogger(TimeBase.class);
-    private static final float DECAY_RATE = 0.95f;
-    private static final float ONE_MINUS_DECAY_RATE = 1.0f - DECAY_RATE;
-    private static final float RESYNC_TIME_RATE = 0.1f;
+    private static final float DECAY_RATE = 0.95f;//衰减率
+    private static final float ONE_MINUS_DECAY_RATE = 1.0f - DECAY_RATE;//1减去衰减率
+    private static final float RESYNC_TIME_RATE = 0.1f;//重新同步事件屡
 
-    private static final int MAX_UPDATE_CYCLE_LENGTH = 1000;
-    private static final int UPDATE_CAP = 1000;
+    private static final int MAX_UPDATE_CYCLE_LENGTH = 1000;//最高更新循环长度
+    private static final int UPDATE_CAP = 1000;//更新容量
 
-    private AtomicLong last = new AtomicLong(0);
-    private AtomicLong delta = new AtomicLong(0);
-    private float avgDelta;
-    private long desynch;
-    private boolean paused;
+    private AtomicLong last = new AtomicLong(0);//上次事件
+    private AtomicLong delta = new AtomicLong(0);//delta 间隔时间
+    private float avgDelta;//平均avg
+    private long desynch;//
+    private boolean paused;//是否暂停
 
-    private AtomicLong gameTime = new AtomicLong(0);
+    private AtomicLong gameTime = new AtomicLong(0);//游戏时间
 
-    public abstract long getRawTimeInMs();
+    public abstract long getRawTimeInMs();//原生的时间毫秒级
 
     /**
      * Increments time
      *
      * @return The number of update cycles to run
      */
-    public Iterator<Float> tick() {
+    public Iterator<Float> tick() {//tick
         long now = getRawTimeInMs();
         long newDelta = now - last.get();
         if (0 == newDelta) {
@@ -66,10 +66,10 @@ public abstract class TimeBase implements EngineTime {
         }
         int updateCycles = (int) ((newDelta - 1) / MAX_UPDATE_CYCLE_LENGTH) + 1;
         last.set(now);
-        avgDelta = avgDelta * DECAY_RATE + newDelta * ONE_MINUS_DECAY_RATE;
+        avgDelta = avgDelta * DECAY_RATE + newDelta * ONE_MINUS_DECAY_RATE;//用newDelta时间不断去更新avgDelta
 
         // Reduce desynch between server time
-        if (desynch != 0) {
+        if (desynch != 0) {//和服务器相差时间
             long diff = (long) Math.ceil(desynch * RESYNC_TIME_RATE);
             if (diff == 0) {
                 diff = (long) Math.signum(desynch);
