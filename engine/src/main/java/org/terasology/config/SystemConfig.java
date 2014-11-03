@@ -20,13 +20,13 @@ package org.terasology.config;
  * @author Immortius
  */
 public class SystemConfig {
-    private long dayNightLengthInMs = 1800000;
-    private int maxThreads = 2;
-    private int verticalChunkMeshSegments = 1;
+    private long dayNightLengthInMs = 1800000;//白天的长度
+    private int maxThreads = 2;//最大线程数量
+    private int verticalChunkMeshSegments = 1;//垂直chunkmesh段
 
-    private boolean debugEnabled;
-    private boolean monitoringEnabled;
-    private boolean reflectionsCacheEnabled;
+    private boolean debugEnabled;//是否可调试
+    private boolean monitoringEnabled;//是否可以监控
+    private boolean reflectionsCacheEnabled;//反射缓存开启
 
     public long getDayNightLengthInMs() {
         return dayNightLengthInMs;

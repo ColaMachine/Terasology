@@ -139,7 +139,7 @@ public class RenderingConfig {
         WorldRenderer worldRenderer = CoreRegistry.get(WorldRenderer.class);
         LocalPlayer player = CoreRegistry.get(LocalPlayer.class);
         if (player != null) {
-            player.getClientEntity().send(new ChangeViewRangeRequest(viewDistance));
+            player.getClientEntity().send(new ChangeViewRangeRequest(viewDistance));//why
         }
         if (worldRenderer != null) {
             worldRenderer.changeViewDistance(viewDistance);
@@ -406,4 +406,6 @@ public class RenderingConfig {
     public String toString() {
         return Config.createGson().toJsonTree(this).toString();
     }
+
+
 }

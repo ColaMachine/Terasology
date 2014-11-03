@@ -17,8 +17,8 @@ package org.terasology.rendering.cameras;
 
 import org.terasology.rendering.nui.layers.mainMenu.videoSettings.CameraSetting;
 
-public class PerspectiveCameraSettings {
-    private CameraSetting cameraSetting;
+public class PerspectiveCameraSettings {//透视摄像机设置  这个累其实是对 CameraSetting的封装类 是用在ui绘制的时候用的
+    private CameraSetting cameraSetting;//摄像机设置
 
     public PerspectiveCameraSettings(CameraSetting cameraSetting) {
         this.cameraSetting = cameraSetting;

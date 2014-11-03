@@ -134,7 +134,7 @@ public class LwjglGraphics extends BaseLwjglSubsystem {
 
     private void initDisplay(Config config, LwjglDisplayDevice lwjglDisplay) {
         try {
-            lwjglDisplay.setFullscreen(config.getRendering().isFullscreen(), false);
+            lwjglDisplay.setFullscreen(config.getRendering().isFullscreen(), false);// 不能调整大小
 
             RenderingConfig rc = config.getRendering();
             Display.setLocation(rc.getWindowPosX(), rc.getWindowPosY());
