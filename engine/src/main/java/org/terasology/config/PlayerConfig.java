@@ -22,8 +22,8 @@ import org.terasology.rendering.nui.Color;
  * @author Immortius
  */
 public class PlayerConfig {
-    private String name = "Player";
-    private Color color = Color.RED;
+    private String name = "Player";//名称
+    private Color color = Color.RED;//颜色红色
 
     public String getName() {
         return name;

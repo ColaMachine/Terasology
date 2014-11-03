@@ -22,7 +22,7 @@ import org.terasology.monitoring.ThreadActivity;
  */
 public class ThreadActivityInternal implements ThreadActivity {
 
-    private SingleThreadMonitor monitor;
+    private SingleThreadMonitor monitor;//单线程监控器
 
     public ThreadActivityInternal(SingleThreadMonitor monitor) {
         this.monitor = monitor;
@@ -30,6 +30,6 @@ public class ThreadActivityInternal implements ThreadActivity {
 
     @Override
     public void close() {
-        monitor.endTask();
+        monitor.endTask();//监控停止任务
     }
 }

@@ -42,29 +42,29 @@ import java.util.Objects;
  * @author Immortius
  */
 @API
-public class Color {
+public class Color {//playerconfig->color
 
-    public static final Color BLACK = new Color(0x000000FF);
-    public static final Color WHITE = new Color(0xFFFFFFFF);
-    public static final Color BLUE = new Color(0x0000FFFF);
-    public static final Color GREEN = new Color(0x00FF00FF);
-    public static final Color RED = new Color(0xFF0000FF);
-    public static final Color GREY = new Color(0x888888FF);
-    public static final Color TRANSPARENT = new Color(0x00000000);
-    public static final Color YELLOW = new Color(0xFFFF00FF);
-    public static final Color CYAN = new Color(0x00FFFFFF);
-    public static final Color MAGENTA = new Color(0xFF00FFFF);
+    public static final Color BLACK = new Color(0x000000FF);//黑色
+    public static final Color WHITE = new Color(0xFFFFFFFF);//白色
+    public static final Color BLUE = new Color(0x0000FFFF);//蓝色
+    public static final Color GREEN = new Color(0x00FF00FF);//绿色
+    public static final Color RED = new Color(0xFF0000FF);//红色
+    public static final Color GREY = new Color(0x888888FF);//灰色
+    public static final Color TRANSPARENT = new Color(0x00000000);//透明
+    public static final Color YELLOW = new Color(0xFFFF00FF);//黄色
+    public static final Color CYAN = new Color(0x00FFFFFF);//青色
+    public static final Color MAGENTA = new Color(0xFF00FFFF);//紫红色
 
-    private static final int MAX = 255;
-    private static final int RED_OFFSET = 24;
-    private static final int GREEN_OFFSET = 16;
-    private static final int BLUE_OFFSET = 8;
-    private static final int RED_FILTER = 0x00FFFFFF;
-    private static final int GREEN_FILTER = 0xFF00FFFF;
-    private static final int BLUE_FILTER = 0xFFFF00FF;
-    private static final int ALPHA_FILTER = 0xFFFFFF00;
+    private static final int MAX = 255;//0x000000FF
+    private static final int RED_OFFSET = 24;//红色位进
+    private static final int GREEN_OFFSET = 16;//绿色位进
+    private static final int BLUE_OFFSET = 8;//蓝色位偏移
+    private static final int RED_FILTER = 0x00FFFFFF;//红色过滤
+    private static final int GREEN_FILTER = 0xFF00FFFF;//绿色过滤
+    private static final int BLUE_FILTER = 0xFFFF00FF;//蓝色过滤
+    private static final int ALPHA_FILTER = 0xFFFFFF00;//透明值过滤
 
-    private final int representation;
+    private final int representation;//当前颜色值
 
     /**
      * Creates a color that is black with full alpha.
@@ -84,10 +84,10 @@ public class Color {
      * @param g
      * @param b
      */
-    public Color(float r, float g, float b) {
+    public Color(float r, float g, float b) {//将1转成255 0.1转成26
         this((int) (r * MAX), (int) (g * MAX), (int) (b * MAX));
     }
-
+   
     /**
      * Creates a color with the given red/green/blue/alpha values.
      *
@@ -131,7 +131,7 @@ public class Color {
      * @return The red component, between 0 and 255
      */
     public int r() {
-        return (representation >> RED_OFFSET) & MAX;
+        return (representation >> RED_OFFSET) & MAX;//& 
     }
 
     /**
@@ -140,7 +140,7 @@ public class Color {
     public int g() {
         return (representation >> GREEN_OFFSET) & MAX;
     }
-
+    
     /**
      * @return The blue component, between 0 and 255
      */
@@ -155,7 +155,7 @@ public class Color {
         return representation & MAX;
     }
 
-    public float rf() {
+    public float rf() {//得到0~1的值
         return r() / 255.f;
     }
 
@@ -171,7 +171,7 @@ public class Color {
         return a() / 255.f;
     }
 
-    public Color alterRed(int value) {
+    public Color alterRed(int value) {//修改representation的红色部分 左移24位 然后把他与 过滤掉红色的representation相与
         Preconditions.checkArgument(value >= 0 || value <= MAX, "Color values must be in range 0-255");
         return new Color(value << RED_OFFSET | (representation & RED_FILTER));
     }
@@ -191,7 +191,7 @@ public class Color {
         return new Color(value | (representation & ALPHA_FILTER));
     }
 
-    public Color inverse() {
+    public Color inverse() {//对颜色部分取反 不包括透明部分
         return new Color((~representation & ALPHA_FILTER) | a());
     }
 

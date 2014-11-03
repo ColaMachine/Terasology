@@ -28,20 +28,20 @@ import java.lang.ref.WeakReference;
 import java.util.Deque;
 import java.util.List;
 import java.util.Set;
-
+//
 public class SingleThreadMonitorImpl implements SingleThreadMonitor {
 
-    private final String name;
-    private final WeakReference<Thread> ref;
-    private final TObjectIntMap<String> taskCounters = new TObjectIntHashMap<>();
-    private final Set<String> tasks = Sets.newLinkedHashSet();
+    private final String name;//名称
+    private final WeakReference<Thread> ref;//弱引用
+    private final TObjectIntMap<String> taskCounters = new TObjectIntHashMap<>();//int object
+    private final Set<String> tasks = Sets.newLinkedHashSet();//tasks
 
-    private final long id;
+    private final long id;//id
 
-    private Deque<Throwable> errors = Queues.newArrayDeque();
+    private Deque<Throwable> errors = Queues.newArrayDeque();//错误集合
 
-    private boolean active;
-    private String lastTask = "";
+    private boolean active;//活跃
+    private String lastTask = "";//上个任务
 
     public SingleThreadMonitorImpl(Thread thread) {
         Preconditions.checkNotNull(thread, "The parameter 'thread' must not be null");

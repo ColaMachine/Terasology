@@ -19,31 +19,31 @@ import java.util.List;
 
 public interface SingleThreadMonitor extends Comparable<SingleThreadMonitor> {
 
-    boolean isAlive();
+    boolean isAlive();//是否还存活
 
-    boolean isActive();
+    boolean isActive();//是否活跃
 
-    String getName();
+    String getName();//取得名字
 
-    long getThreadId();
+    long getThreadId();//得到线程id
 
-    boolean hasErrors();
+    boolean hasErrors();//是否有错误
 
-    int getNumErrors();
+    int getNumErrors();//得到错误数
 
-    Throwable getLastError();
+    Throwable getLastError();//得到最后条错误
 
-    List<Throwable> getErrors();
+    List<Throwable> getErrors();//得到错误list
 
-    void addError(Throwable error);
+    void addError(Throwable error);//增加错误
 
-    Iterable<String> getTasks();
+    Iterable<String> getTasks();//得到tasks
 
-    long getCounter(String task);
+    long getCounter(String task);//得到计数
 
-    void beginTask(String task);
+    void beginTask(String task);//开始任务
 
-    void endTask();
+    void endTask();//结束任务
 
-    String getLastTask();
+    String getLastTask();//得到最近的任务
 }

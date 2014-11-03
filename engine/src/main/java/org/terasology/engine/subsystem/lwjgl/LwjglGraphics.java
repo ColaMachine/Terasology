@@ -84,7 +84,7 @@ public class LwjglGraphics extends BaseLwjglSubsystem {
 
     private static final Logger logger = LoggerFactory.getLogger(LwjglGraphics.class);
 
-    private GLBufferPool bufferPool = new GLBufferPool(false);
+    private GLBufferPool bufferPool = new GLBufferPool(false);//一个有关vbo的buffer
 
     @Override
     public void preInitialise() {
@@ -159,7 +159,7 @@ public class LwjglGraphics extends BaseLwjglSubsystem {
                 logger.warn("Could not set icon", e);
             }
             Display.create(rc.getPixelFormat());
-            Display.setVSyncEnabled(rc.isVSync());
+            Display.setVSyncEnabled(rc.isVSync());//确定是否垂直同步
         } catch (LWJGLException e) {
             throw new RuntimeException("Can not initialize graphics device.", e);
         }
@@ -231,7 +231,7 @@ public class LwjglGraphics extends BaseLwjglSubsystem {
         CoreRegistry.get(ShaderManager.class).initShaders();
     }
 
-    private void checkOpenGL() {
+    private void checkOpenGL() {//校验是否支持
         boolean canRunGame = GLContext.getCapabilities().OpenGL11
                 & GLContext.getCapabilities().OpenGL12
                 & GLContext.getCapabilities().OpenGL14

@@ -85,7 +85,7 @@ public class TerasologyEngine implements GameEngine {
 
     private GameState currentState;//当前状态
     private boolean initialised;//是否初始化
-    private boolean running;//是否泵跑
+    private boolean running;//是否运行
     private boolean disposed;//是否取消
     private GameState pendingState;//尾随状态
 

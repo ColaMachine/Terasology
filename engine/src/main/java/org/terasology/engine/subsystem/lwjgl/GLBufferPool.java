@@ -48,17 +48,17 @@ public class GLBufferPool {
 
 
     public int get(String forUseBy) {
-        if (pool.isEmpty()) {
+        if (pool.isEmpty()) {//如果池子空了开始放水
             IntBuffer buffer = BufferUtils.createIntBuffer(BUFFER_FETCH_SIZE);
-            GL15.glGenBuffers(buffer);
+            GL15.glGenBuffers(buffer);//根据buffer的长度生成buffers吗
             for (int i = 0; i < BUFFER_FETCH_SIZE; ++i) {
                 pool.add(buffer.get(i));//存入列表号码
             }
             totalPoolSize += BUFFER_FETCH_SIZE;//means totalPoolSize= BUFFER_FETCH_SIZE
         }
 
-        int result = pool.removeAt(pool.size() - 1);
-        if (traceBufferUsage) {
+        int result = pool.removeAt(pool.size() - 1);//删除最后一个元素
+        if (traceBufferUsage) {//使用列表里压入使用的id
             usageTracker.put(result, forUseBy);//用的列表里存入他
         }	
         return result;
