@@ -182,9 +182,9 @@ public final class Config {
                 .registerTypeAdapter(Name.class, new NameTypeAdapter())//if the variable instance of name then the value process by nametype adpter
                 .registerTypeAdapter(Version.class, new VersionTypeAdapter())
                 .registerTypeAdapter(BindsConfig.class, new BindsConfig.Handler())
-                .registerTypeAdapter(SetMultimap.class, new SetMultimapTypeAdapter<>(Input.class))
+                .registerTypeAdapter(SetMultimap.class, new SetMultimapTypeAdapter<>(Input.class))//bindsconfig里的
                 .registerTypeAdapter(SecurityConfig.class, new SecurityConfig.Handler())
-                .registerTypeAdapter(Input.class, new InputHandler())
+                .registerTypeAdapter(Input.class, new InputHandler())//bindsconfig里的
                 .registerTypeAdapter(PixelFormat.class, new PixelFormatHandler())
                 .registerTypeAdapterFactory(new CaseInsensitiveEnumTypeAdapterFactory())
                 .registerTypeAdapterFactory(new UriTypeAdapterFactory())
