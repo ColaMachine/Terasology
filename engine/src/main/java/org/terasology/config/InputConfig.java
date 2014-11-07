@@ -20,7 +20,7 @@ package org.terasology.config;
  */
 public class InputConfig {
 
-    private BindsConfig binds = new BindsConfig();
+    private BindsConfig binds = new BindsConfig();//
     private float mouseSensitivity = 0.075f;
     private boolean mouseYAxisInverted;
 

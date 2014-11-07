@@ -30,7 +30,7 @@ public class AudioConfig {
     private float musicVolume = 0.1f;
     private boolean disableSound;
 
-    private transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    private transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);//以audioconfig为单位进行属性变化检测
 
     public float getSoundVolume() {
         return soundVolume;
@@ -60,7 +60,7 @@ public class AudioConfig {
         this.disableSound = disableSound;
     }
 
-    public void subscribe(PropertyChangeListener changeListener) {
+    public void subscribe(PropertyChangeListener changeListener) {//注册属性变化触发事件
         this.propertyChangeSupport.addPropertyChangeListener(changeListener);
     }
 

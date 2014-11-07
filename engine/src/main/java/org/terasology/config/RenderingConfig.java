@@ -30,23 +30,23 @@ import org.terasology.rendering.world.WorldRenderer;
  * @author Immortius
  */
 public class RenderingConfig {
-    private PixelFormat pixelFormat = new PixelFormat().withDepthBits(24);
-    private int windowPosX = -1;
+    private PixelFormat pixelFormat = new PixelFormat().withDepthBits(24);//颜色的位数
+    private int windowPosX = -1;//窗口的位置x
     private int windowPosY = -1;
-    private int windowWidth = 1152;
+    private int windowWidth = 1152;//窗口的大小
     private int windowHeight = 720;
-    private boolean fullscreen;
+    private boolean fullscreen;//是否全屏
     private ViewDistance viewDistance = ViewDistance.MODERATE;
-    private boolean flickeringLight = true;
-    private boolean animateGrass = true;
-    private boolean animateWater;
-    private float fieldOfView = 90;
-    private boolean cameraBobbing = true;
-    private boolean renderPlacingBox = true;
-    private int blurIntensity = 2;
-    private boolean reflectiveWater;
-    private boolean vignette = true;
-    private boolean motionBlur = true;
+    private boolean flickeringLight = true;//闪光灯
+    private boolean animateGrass = true;//草是否是动态的
+    private boolean animateWater;//水是否有动画
+    private float fieldOfView = 90;//看的事业
+    private boolean cameraBobbing = true;//镜头的摆动
+    private boolean renderPlacingBox = true;//放方块的时候是否有渲染
+    private int blurIntensity = 2;//强度
+    private boolean reflectiveWater;//水反
+    private boolean vignette = true;//光晕
+    private boolean motionBlur = true;//
     private boolean ssao;
     private boolean filmGrain = true;
     private boolean outline = true;

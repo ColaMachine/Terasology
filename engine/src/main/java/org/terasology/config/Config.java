@@ -65,16 +65,16 @@ import java.util.Set;
 public final class Config {
     private static final Logger logger = LoggerFactory.getLogger(Config.class);
 
-    private SystemConfig system = new SystemConfig();
-    private PlayerConfig player = new PlayerConfig();
-    private InputConfig input = new InputConfig();
-    private AudioConfig audio = new AudioConfig();
-    private RenderingConfig rendering = new RenderingConfig();
-    private ModuleConfig defaultModSelection = new ModuleConfig();
-    private WorldGenerationConfig worldGeneration = new WorldGenerationConfig();
-    private Map<SimpleUri, Map<String, JsonElement>> moduleConfigs = Maps.newHashMap();
-    private NetworkConfig network = new NetworkConfig();
-    private SecurityConfig security = new SecurityConfig();
+    private SystemConfig system = new SystemConfig();//
+    private PlayerConfig player = new PlayerConfig();//玩家config配置文件
+    private InputConfig input = new InputConfig(); //输入配置文件
+    private AudioConfig audio = new AudioConfig();//声音配置文件
+    private RenderingConfig rendering = new RenderingConfig();//渲染配置文件
+    private ModuleConfig defaultModSelection = new ModuleConfig();//模块配置文件
+    private WorldGenerationConfig worldGeneration = new WorldGenerationConfig();//世界渲染配置文件
+    private Map<SimpleUri, Map<String, JsonElement>> moduleConfigs = Maps.newHashMap();//模块配置文件
+    private NetworkConfig network = new NetworkConfig();//网络配置文件
+    private SecurityConfig security = new SecurityConfig();//安全配置文件
 
     /**
      * Create a new, empty config

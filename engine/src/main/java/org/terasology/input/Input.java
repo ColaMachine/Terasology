@@ -22,7 +22,7 @@ package org.terasology.input;
  *
  * @author Immortius
  */
-public interface Input {
+public interface Input {//是鼠标还是键盘事件
 
     InputType getType();
 

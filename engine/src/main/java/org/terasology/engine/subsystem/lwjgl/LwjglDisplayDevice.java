@@ -29,7 +29,7 @@ import org.terasology.config.Config;
 import org.terasology.engine.subsystem.DisplayDevice;
 import org.terasology.registry.CoreRegistry;
 
-public class LwjglDisplayDevice implements DisplayDevice {
+public class LwjglDisplayDevice implements DisplayDevice {//主要是管理 窗口的大小 全屏
 
     private static final Logger logger = LoggerFactory.getLogger(LwjglDisplayDevice.class);
 

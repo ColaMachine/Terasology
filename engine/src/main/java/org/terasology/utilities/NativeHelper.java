@@ -35,7 +35,7 @@ public final class NativeHelper {
     private NativeHelper() {
     }
 
-    public static void addLibraryPath(Path libPath) {
+    public static void addLibraryPath(Path libPath) {///Users/luying/Documents/workspace/Terasology/natives/macosx
         try {
             String envPath = System.getProperty("java.library.path");
 

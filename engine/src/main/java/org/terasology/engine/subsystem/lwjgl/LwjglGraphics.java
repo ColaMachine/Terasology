@@ -82,26 +82,26 @@ import static org.lwjgl.opengl.GL11.glViewport;
 
 public class LwjglGraphics extends BaseLwjglSubsystem {
 
-    private static final Logger logger = LoggerFactory.getLogger(LwjglGraphics.class);
+    private static final Logger logger = LoggerFactory.getLogger(LwjglGraphics.class);//日志
 
     private GLBufferPool bufferPool = new GLBufferPool(false);//一个有关vbo的buffer
 
     @Override
     public void preInitialise() {
         super.preInitialise();
-    }
+    }//初始化日志和类路径 还有高级类路径
 
     @Override
     public void postInitialise(Config config) {
-        CoreRegistry.putPermanently(RenderingSubsystemFactory.class, new LwjglRenderingSubsystemFactory(bufferPool));
+        CoreRegistry.putPermanently(RenderingSubsystemFactory.class, new LwjglRenderingSubsystemFactory(bufferPool));//用来生成worldrenderlwjgl的工厂
 
-        LwjglDisplayDevice lwjglDisplay = new LwjglDisplayDevice();
+        LwjglDisplayDevice lwjglDisplay = new LwjglDisplayDevice();//显示器设备
         CoreRegistry.putPermanently(DisplayDevice.class, lwjglDisplay);
 
-        initDisplay(config, lwjglDisplay);
-        initOpenGL();
+        initDisplay(config, lwjglDisplay);//根据配置初始显示设备
+        initOpenGL();//初始化opengl
 
-        CoreRegistry.putPermanently(NUIManager.class, new NUIManagerInternal(new LwjglCanvasRenderer()));
+        CoreRegistry.putPermanently(NUIManager.class, new NUIManagerInternal(new LwjglCanvasRenderer()));//初始化界面系统
     }
 
     @Override

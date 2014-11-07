@@ -68,7 +68,7 @@ import java.util.Set;
 public final class BindsConfig {
     private static final Logger logger = LoggerFactory.getLogger(BindsConfig.class);
 
-    private ListMultimap<SimpleUri, Input> data = ArrayListMultimap.create();
+    private ListMultimap<SimpleUri, Input> data = ArrayListMultimap.create();//一个simpleuri 对应一个输入符号
 
     public BindsConfig() {
     }
@@ -78,13 +78,13 @@ public final class BindsConfig {
      *
      * @param other The BindsConfig to copy
      */
-    public void setBinds(BindsConfig other) {
-        data.clear();
-        data.putAll(other.data);
+    public void setBinds(BindsConfig other) { //复制其他的配置
+        data.clear();//清空
+        data.putAll(other.data);//重新填充
     }
 
     public Collection<Input> getBinds(SimpleUri uri) {
-        return data.get(uri);
+        return data.get(uri);//根据uri获取绑定的键位
     }
 
     /**
@@ -96,7 +96,7 @@ public final class BindsConfig {
      */
     public boolean hasBinds(SimpleUri uri) {
         return !data.get(uri).isEmpty();
-    }
+    }//简单的uri
 
     /**
      * Sets the inputs for a given bind, replacing any previous inputs
@@ -104,32 +104,32 @@ public final class BindsConfig {
      * @param bindUri
      * @param inputs
      */
-    public void setBinds(SimpleUri bindUri, Input... inputs) {
-        setBinds(bindUri, Arrays.asList(inputs));
+    public void setBinds(SimpleUri bindUri, Input... inputs) {//这个binduri到底是个什么东西呢
+        setBinds(bindUri, Arrays.asList(inputs));//engine:attack这样的
     }
 
     public void setBinds(SimpleUri bindUri, Iterable<Input> inputs) {
         Set<Input> uniqueInputs = Sets.newLinkedHashSet(inputs);
 
-        // Clear existing usages of the given inputs
-        Iterator<Input> iterator = data.values().iterator();
+        // Clear existing usages of the given inputs//如果案件已经被绑定了 就删除原来的绑定
+        Iterator<Input> iterator = data.values().iterator();//
         while (iterator.hasNext()) {
             Input i = iterator.next();
             if (uniqueInputs.contains(i)) {
                 iterator.remove();
             }
         }
-        data.replaceValues(bindUri, uniqueInputs);
+        data.replaceValues(bindUri, uniqueInputs);//一对多 的关系 就变成 n条key value
     }
 
     /**
      * @return A new BindsConfig, with inputs set from the DefaultBinding annotations on bind classes
      */
-    public static BindsConfig createDefault() {
+    public static BindsConfig createDefault() {//
         ModuleManager moduleManager = CoreRegistry.get(ModuleManager.class);
         BindsConfig config = new BindsConfig();
         DependencyResolver resolver = new DependencyResolver(moduleManager.getRegistry());
-        for (Name moduleId : moduleManager.getRegistry().getModuleIds()) {
+        for (Name moduleId : moduleManager.getRegistry().getModuleIds()) {//遍历手游模块的id
             if (moduleManager.getRegistry().getLatestModuleVersion(moduleId).isCodeModule()) {
                 ResolutionResult result = resolver.resolve(moduleId);
                 if (result.isSuccess()) {
