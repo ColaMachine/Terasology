@@ -23,7 +23,7 @@ public enum SendEventMode {
     /**
      * Send an event every update/frame with the current axis value
      */
-    ALWAYS {
+    ALWAYS {//总是发送事件
         @Override
         public boolean shouldSendEvent(float oldValue, float newValue) {
             return true;
@@ -32,7 +32,7 @@ public enum SendEventMode {
     /**
      * Sends an event every frame in which the current axis value is not zero
      */
-    WHEN_NON_ZERO {
+    WHEN_NON_ZERO {//当新的值不是0的时候
         @Override
         public boolean shouldSendEvent(float oldValue, float newValue) {
             return newValue != 0;
@@ -41,7 +41,7 @@ public enum SendEventMode {
     /**
      * Only sends an event when the value of the axis changes
      */
-    WHEN_CHANGED {
+    WHEN_CHANGED {//当新的值不等于旧的值的时候
         @Override
         public boolean shouldSendEvent(float oldValue, float newValue) {
             return oldValue != newValue;

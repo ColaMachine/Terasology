@@ -24,8 +24,8 @@ import org.terasology.input.events.ButtonEvent;
  */
 public class BindButtonEvent extends ButtonEvent {
 
-    private SimpleUri id;
-    private ButtonState state;
+    private SimpleUri id;//identity
+    private ButtonState state;//
 
     public BindButtonEvent() {
         super(0);

@@ -35,7 +35,7 @@ import javax.vecmath.Vector3f;
 import java.util.List;
 import java.util.Set;
 
-/**
+/**是一个虚的按钮
  * A BindableButton is pseudo button that is controlled by one or more actual inputs (whether keys, mouse buttons or the
  * mouse wheel).
  * <p/>
@@ -47,9 +47,9 @@ public class BindableButtonImpl implements BindableButton {
     private SimpleUri id;
     private String displayName;
     private BindButtonEvent buttonEvent;
-    private Set<Input> activeInputs = Sets.newHashSet();
+    private Set<Input> activeInputs = Sets.newHashSet();//指定的输入信号
 
-    private List<BindButtonSubscriber> subscribers = Lists.newArrayList();
+    private List<BindButtonSubscriber> subscribers = Lists.newArrayList();//用户
     private ActivateMode mode = ActivateMode.BOTH;
     private boolean repeating;
     private int repeatTime;

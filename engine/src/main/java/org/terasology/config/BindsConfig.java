@@ -232,7 +232,7 @@ public final class BindsConfig {
     }
 
     private void registerButtonBinds(InputSystem inputSystem, ModuleEnvironment environment, Iterable<Class<?>> classes) {
-        for (Class registerBindClass : classes) {
+        for (Class registerBindClass : classes) {//通过注解找到的class
             RegisterBindButton info = (RegisterBindButton) registerBindClass.getAnnotation(RegisterBindButton.class);
             SimpleUri bindUri = new SimpleUri(environment.getModuleProviding(registerBindClass), info.id());
             if (BindButtonEvent.class.isAssignableFrom(registerBindClass)) {

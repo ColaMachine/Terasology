@@ -71,14 +71,14 @@ public class InputSystem extends BaseComponentSystem {
     private MouseDevice mouse = new NullMouseDevice();
     private KeyboardDevice keyboard = new NullKeyboardDevice();
 
-    private Map<String, BindableAxisImpl> axisLookup = Maps.newHashMap();
+    private Map<String, BindableAxisImpl> axisLookup = Maps.newHashMap();//一些像声音类的调控按钮
     private Map<SimpleUri, BindableButtonImpl> buttonLookup = Maps.newHashMap();
 
     private List<BindableAxisImpl> axisBinds = Lists.newArrayList();
     private List<BindableButtonImpl> buttonBinds = Lists.newArrayList();
 
-    // Links between primitive inputs and bind buttons
-    private Map<Integer, BindableButtonImpl> keyBinds = Maps.newHashMap();
+    // Links between primitive inputs and bind buttons  原始的输入和按钮
+    private Map<Integer, BindableButtonImpl> keyBinds = Maps.newHashMap();//key的value和button绑定
     private Map<MouseInput, BindableButtonImpl> mouseButtonBinds = Maps.newHashMap();
     private BindableButtonImpl mouseWheelUpBind;
     private BindableButtonImpl mouseWheelDownBind;
@@ -87,13 +87,13 @@ public class InputSystem extends BaseComponentSystem {
     private CameraTargetSystem targetSystem;
 
     @Override
-    public void initialise() {
+    public void initialise() {//初始化
         localPlayer = CoreRegistry.get(LocalPlayer.class);
         targetSystem = CoreRegistry.get(CameraTargetSystem.class);
     }
 
     @Override
-    public void shutdown() {
+    public void shutdown() {//关闭
         localPlayer = null;
         targetSystem = null;
     }
@@ -117,7 +117,7 @@ public class InputSystem extends BaseComponentSystem {
     public BindableButton registerBindButton(SimpleUri bindId, String displayName) {
         return registerBindButton(bindId, displayName, new BindButtonEvent());
     }
-
+//engine:pause  Ingame Menu
     public BindableButton registerBindButton(SimpleUri bindId, String displayName, BindButtonEvent event) {
         BindableButtonImpl bind = new BindableButtonImpl(bindId, displayName, event);
         buttonLookup.put(bindId, bind);

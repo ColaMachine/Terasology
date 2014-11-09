@@ -22,7 +22,7 @@ import org.terasology.math.Vector3i;
 import javax.vecmath.Vector3f;
 
 
-public abstract class InputEvent implements ConsumableEvent {
+public abstract class InputEvent implements ConsumableEvent {//inputaction 和 inputevent的关系
     private float delta;
     private boolean consumed;
 

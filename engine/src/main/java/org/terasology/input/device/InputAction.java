@@ -22,7 +22,7 @@ import org.terasology.math.Vector2i;
 /**
  * @author Immortius
  */
-public final class InputAction {
+public final class InputAction {//看来只是一种input的判断而已  真正的事件是inputevent
     private final Input input;
     private final ButtonState state;
     private final int delta;
