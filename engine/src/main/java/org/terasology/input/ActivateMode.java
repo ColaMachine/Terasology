@@ -25,15 +25,15 @@ public enum ActivateMode {
     /**
      * The button will only send ButtonState.DOWN events
      */
-    PRESS(true, false),
+    PRESS(true, false),//按下去的时候有效
     /**
      * The button will only send ButtonState.UP events
      */
-    RELEASE(false, true),
+    RELEASE(false, true),//释放的时候有效
     /**
      * The button will send all events
      */
-    BOTH(true, true);
+    BOTH(true, true);//都有效
 
     private boolean activatedOnPress;
     private boolean activatedOnRelease;

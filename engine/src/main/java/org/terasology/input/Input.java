@@ -24,11 +24,11 @@ package org.terasology.input;
  */
 public interface Input {//是鼠标还是键盘事件
 
-    InputType getType();
+    InputType getType();//得到类型
 
-    int getId();
+    int getId();//id是什么 只能是键值了
 
-    String getName();
+    String getName();//得到名称
 
-    String getDisplayName();
+    String getDisplayName();//得到显示名称
 }

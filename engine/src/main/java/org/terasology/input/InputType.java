@@ -39,7 +39,7 @@ public enum InputType {
         @Override
         public Input getInput(int id) {
             return Keyboard.Key.find(id);
-        }
+        }//通过自身的keyboard类 寻找input
 
         @Override
         public Input getInput(String name) {

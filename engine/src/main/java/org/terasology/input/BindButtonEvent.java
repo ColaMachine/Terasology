@@ -22,10 +22,10 @@ import org.terasology.input.events.ButtonEvent;
 /**
  * @author Immortius
  */
-public class BindButtonEvent extends ButtonEvent {
+public class BindButtonEvent extends ButtonEvent {//
 
     private SimpleUri id;//identity
-    private ButtonState state;//
+    private ButtonState state;//是 按下去 释放 还是down up repeat
 
     public BindButtonEvent() {
         super(0);

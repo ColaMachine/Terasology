@@ -68,59 +68,59 @@ public class InputSystem extends BaseComponentSystem {
     @In
     private GameEngine engine;
 
-    private MouseDevice mouse = new NullMouseDevice();
+    private MouseDevice mouse = new NullMouseDevice();//是lwjglMouseDevice
     private KeyboardDevice keyboard = new NullKeyboardDevice();
 
     private Map<String, BindableAxisImpl> axisLookup = Maps.newHashMap();//一些像声音类的调控按钮
-    private Map<SimpleUri, BindableButtonImpl> buttonLookup = Maps.newHashMap();
+    private Map<SimpleUri, BindableButtonImpl> buttonLookup = Maps.newHashMap();//按钮
 
     private List<BindableAxisImpl> axisBinds = Lists.newArrayList();
     private List<BindableButtonImpl> buttonBinds = Lists.newArrayList();
 
     // Links between primitive inputs and bind buttons  原始的输入和按钮
     private Map<Integer, BindableButtonImpl> keyBinds = Maps.newHashMap();//key的value和button绑定
-    private Map<MouseInput, BindableButtonImpl> mouseButtonBinds = Maps.newHashMap();
-    private BindableButtonImpl mouseWheelUpBind;
-    private BindableButtonImpl mouseWheelDownBind;
+    private Map<MouseInput, BindableButtonImpl> mouseButtonBinds = Maps.newHashMap();//鼠标
+    private BindableButtonImpl mouseWheelUpBind;//鼠标滚轮向上
+    private BindableButtonImpl mouseWheelDownBind;//鼠标滚轮向下
 
-    private LocalPlayer localPlayer;
-    private CameraTargetSystem targetSystem;
+    private LocalPlayer localPlayer;//本地玩家
+    private CameraTargetSystem targetSystem;//摄像头目标系统
 
     @Override
     public void initialise() {//初始化
-        localPlayer = CoreRegistry.get(LocalPlayer.class);
-        targetSystem = CoreRegistry.get(CameraTargetSystem.class);
+        localPlayer = CoreRegistry.get(LocalPlayer.class);//第一人
+        targetSystem = CoreRegistry.get(CameraTargetSystem.class);//目标摄像头
     }
 
     @Override
     public void shutdown() {//关闭
-        localPlayer = null;
-        targetSystem = null;
+        localPlayer = null;//本地玩家
+        targetSystem = null;//摄像头
     }
 
     public void setMouseDevice(MouseDevice mouseDevice) {
         this.mouse = mouseDevice;
-    }
+    }//鼠标设备
 
     public void setKeyboardDevice(KeyboardDevice keyboardDevice) {
         this.keyboard = keyboardDevice;
-    }
+    }//键盘设备
 
     public MouseDevice getMouseDevice() {
         return mouse;
-    }
+    }//得到鼠标设备
 
     public KeyboardDevice getKeyboard() {
         return keyboard;
-    }
+    }//键盘设备
 
-    public BindableButton registerBindButton(SimpleUri bindId, String displayName) {
-        return registerBindButton(bindId, displayName, new BindButtonEvent());
+    public BindableButton registerBindButton(SimpleUri bindId, String displayName) {//注册设备
+        return registerBindButton(bindId, displayName, new BindButtonEvent());//调用下面的方法 其实就是新建一个bindablebuttonimpl
     }
 //engine:pause  Ingame Menu
     public BindableButton registerBindButton(SimpleUri bindId, String displayName, BindButtonEvent event) {
         BindableButtonImpl bind = new BindableButtonImpl(bindId, displayName, event);
-        buttonLookup.put(bindId, bind);
+        buttonLookup.put(bindId, bind);//
         buttonBinds.add(bind);
         return bind;
     }
@@ -138,19 +138,19 @@ public class InputSystem extends BaseComponentSystem {
 
     public BindableButton getBindButton(SimpleUri bindId) {
         return buttonLookup.get(bindId);
-    }
+    }//
 
-    public void linkBindButtonToInput(Input input, SimpleUri bindId) {
-        switch (input.getType()) {
+    public void linkBindButtonToInput(Input input, SimpleUri bindId) {//输入 唯一id
+        switch (input.getType()) {//输入类型
             case KEY:
-                linkBindButtonToKey(input.getId(), bindId);
+                linkBindButtonToKey(input.getId(), bindId);//链接输入的 键值
                 break;
             case MOUSE_BUTTON:
                 MouseInput button = MouseInput.find(input.getType(), input.getId());
-                linkBindButtonToMouse(button, bindId);
+                linkBindButtonToMouse(button, bindId);//键值 和 bindid
                 break;
             case MOUSE_WHEEL:
-                linkBindButtonToMouseWheel(input.getId(), bindId);
+                linkBindButtonToMouseWheel(input.getId(), bindId);//键值 还有 bindid
                 break;
             default:
                 break;
@@ -158,18 +158,18 @@ public class InputSystem extends BaseComponentSystem {
     }
 
     public void linkBindButtonToInput(InputEvent input, SimpleUri bindId) {
-        if (input instanceof KeyEvent) {
+        if (input instanceof KeyEvent) {//keyevent
             linkBindButtonToKey(((KeyEvent) input).getKey().getId(), bindId);
-        } else if (input instanceof MouseButtonEvent) {
+        } else if (input instanceof MouseButtonEvent) {//mousebuttonevent
             linkBindButtonToMouse(((MouseButtonEvent) input).getButton(), bindId);
-        } else if (input instanceof MouseWheelEvent) {
+        } else if (input instanceof MouseWheelEvent) {//mousewheelevent
             linkBindButtonToMouseWheel(((MouseWheelEvent) input).getWheelTurns(), bindId);
         }
     }
 
     public void linkBindButtonToKey(int key, SimpleUri bindId) {
-        BindableButtonImpl bindInfo = buttonLookup.get(bindId);
-        keyBinds.put(key, bindInfo);
+        BindableButtonImpl bindInfo = buttonLookup.get(bindId);//我的
+        keyBinds.put(key, bindInfo);//绑定 key  绑定信息
     }
 
     public void linkBindButtonToMouse(MouseInput mouseButton, SimpleUri bindId) {

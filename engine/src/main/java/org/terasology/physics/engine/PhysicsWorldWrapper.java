@@ -40,7 +40,7 @@ public class PhysicsWorldWrapper implements VoxelPhysicsWorld {
 
     @Override
     public VoxelInfo getCollisionShapeAt(int x, int y, int z) {
-        Block block = world.getBlock(x, y, z);
+        Block block = world.getBlock(x, y, z);//得到当地的block
         return new TeraVoxelInfo(block, block.isTargetable(), !block.isPenetrable(), new Vector3i(x, y, z));
     }
 

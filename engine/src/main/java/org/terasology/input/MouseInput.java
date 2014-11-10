@@ -26,7 +26,7 @@ import java.util.Set;
 /**
  * @author Immortius
  */
-public enum MouseInput implements Input {
+public enum MouseInput implements Input {//mouse的输入值 和Keyboard相似
     NONE(InputType.MOUSE_BUTTON, -1, "MOUSE_NONE", ""),
     MOUSE_LEFT(InputType.MOUSE_BUTTON, 0, "MOUSE_LEFT", "Left Click", "M_LEFT", "M_1"),
     MOUSE_RIGHT(InputType.MOUSE_BUTTON, 1, "MOUSE_RIGHT", "Right Click", "M_2"),

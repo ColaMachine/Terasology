@@ -42,15 +42,15 @@ import java.util.Set;
  * When the BindableButton changes state it sends out events like an actual key or button does. It also allows direct
  * subscription via the {@link org.terasology.input.BindButtonSubscriber} interface.
  */
-public class BindableButtonImpl implements BindableButton {
+public class BindableButtonImpl implements BindableButton {//当改变状态的时候释放信号
 
-    private SimpleUri id;
+    private SimpleUri id;//
     private String displayName;
     private BindButtonEvent buttonEvent;
     private Set<Input> activeInputs = Sets.newHashSet();//指定的输入信号
 
     private List<BindButtonSubscriber> subscribers = Lists.newArrayList();//用户
-    private ActivateMode mode = ActivateMode.BOTH;
+    private ActivateMode mode = ActivateMode.BOTH;//
     private boolean repeating;
     private int repeatTime;
     private long lastActivateTime;

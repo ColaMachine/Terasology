@@ -120,10 +120,10 @@ public class BulletPhysics implements PhysicsEngine {
         dispatcher = new CollisionDispatcher(defaultCollisionConfiguration);
         SequentialImpulseConstraintSolver sequentialImpulseConstraintSolver = new SequentialImpulseConstraintSolver();
         discreteDynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphase, sequentialImpulseConstraintSolver, defaultCollisionConfiguration);
-        discreteDynamicsWorld.setGravity(new Vector3f(0f, -15f, 0f));
+        discreteDynamicsWorld.setGravity(new Vector3f(0f, -15f, 0f));//设置重力加速度
         blockEntityRegistry = CoreRegistry.get(BlockEntityRegistry.class);
 
-        wrapper = new PhysicsWorldWrapper(world);
+        wrapper = new PhysicsWorldWrapper(world);//物理世界
         VoxelWorldShape worldShape = new VoxelWorldShape(wrapper);
 
         liquidWrapper = new PhysicsLiquidWrapper(world);
@@ -201,11 +201,11 @@ public class BulletPhysics implements PhysicsEngine {
 
     @Override
     public HitResult rayTrace(Vector3f from, Vector3f direction, float distance, CollisionGroup... collisionGroups) {
-        Vector3f to = new Vector3f(direction);
-        to.scale(distance);
-        to.add(from);
+        Vector3f to = new Vector3f(direction);//方向
+        to.scale(distance);//放大
+        to.add(from);//开始的位置
 
-        short filter = combineGroups(collisionGroups);
+        short filter = combineGroups(collisionGroups);//所有的getflag都|起来
 
         CollisionWorld.ClosestRayResultWithUserDataCallback closest =
                 new CollisionWorld.ClosestRayResultWithUserDataCallback(from, to);
