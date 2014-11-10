@@ -130,9 +130,9 @@ public class BulletPhysics implements PhysicsEngine {
         VoxelWorldShape liquidShape = new VoxelWorldShape(liquidWrapper);
 
         Matrix3f rot = new Matrix3f();
-        rot.setIdentity();
+        rot.setIdentity();//设置为单位矩阵
         DefaultMotionState blockMotionState = new DefaultMotionState(new Transform(new Matrix4f(rot, new Vector3f(0, 0, 0), 1.0f)));
-        RigidBodyConstructionInfo blockConsInf = new RigidBodyConstructionInfo(0, blockMotionState, worldShape, new Vector3f());
+        RigidBodyConstructionInfo blockConsInf = new RigidBodyConstructionInfo(0, blockMotionState, worldShape, new Vector3f());//严格的身体构造信息
         BulletRigidBody rigidBody = new BulletRigidBody(blockConsInf);
         rigidBody.rb.setCollisionFlags(CollisionFlags.STATIC_OBJECT | rigidBody.rb.getCollisionFlags());
         short mask = (short) (~(CollisionFilterGroups.STATIC_FILTER | StandardCollisionGroup.LIQUID.getFlag()));
@@ -718,8 +718,8 @@ public class BulletPhysics implements PhysicsEngine {
         public final com.bulletphysics.dynamics.RigidBody rb;
         public short collidesWith;
         private final Transform pooledTransform = new Transform();
-        private final Vector3f pendingImpulse = new Vector3f();
-        private final Vector3f pendingForce = new Vector3f();
+        private final Vector3f pendingImpulse = new Vector3f();//冲动 惯性？ 气动？ 
+        private final Vector3f pendingForce = new Vector3f();//力 外力？
 
         BulletRigidBody(RigidBodyConstructionInfo info) {
             rb = new com.bulletphysics.dynamics.RigidBody(info);

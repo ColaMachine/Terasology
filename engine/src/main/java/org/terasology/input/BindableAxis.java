@@ -30,7 +30,7 @@ public interface BindableAxis {
      * Set the circumstance under which the axis will send events
      *
      * @param mode
-     */
+     *///设置环境
     void setSendEventMode(SendEventMode mode);
 
     /**

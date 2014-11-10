@@ -21,7 +21,7 @@ import org.terasology.input.events.ButtonEvent;
 
 /**
  * @author Immortius
- */
+ *///ButtonEvent是抽象类  BindButtonEvent是实现类
 public class BindButtonEvent extends ButtonEvent {//
 
     private SimpleUri id;//identity

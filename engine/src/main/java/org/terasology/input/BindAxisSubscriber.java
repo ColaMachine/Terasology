@@ -21,6 +21,6 @@ import org.terasology.entitySystem.entity.EntityRef;
 /**
  * @author Immortius
  */
-public interface BindAxisSubscriber {
+public interface BindAxisSubscriber {//更新  被bindableaxis使用
     void update(float value, float delta, EntityRef target);
 }

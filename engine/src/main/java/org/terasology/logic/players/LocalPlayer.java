@@ -30,7 +30,7 @@ import javax.vecmath.Vector3f;
 /**
  * @author Immortius <immortius@gmail.com>
  */
-public class LocalPlayer {
+public class LocalPlayer {//每个本地玩家都是以个客户端实体
 
     private EntityRef clientEntity = EntityRef.NULL;
 
@@ -44,7 +44,7 @@ public class LocalPlayer {
     // TODO: instance. If that can be avoided the code in the following method
     // TODO: might be more rightfully placed in the LocalPlayer constructor.
     public void setClientEntity(EntityRef entity) {
-        this.clientEntity = entity;
+        this.clientEntity = entity;//从客户端实体中高提取客户端组件
         ClientComponent clientComp = entity.getComponent(ClientComponent.class);
         if (clientComp != null) {
             clientComp.local = true;
@@ -64,7 +64,7 @@ public class LocalPlayer {
         return EntityRef.NULL;
     }
 
-    public boolean isValid() {
+    public boolean isValid() {//是否有效
         EntityRef characterEntity = getCharacterEntity();
         return characterEntity.exists() && characterEntity.hasComponent(LocationComponent.class) && characterEntity.hasComponent(CharacterComponent.class)
                && characterEntity.hasComponent(CharacterMovementComponent.class);

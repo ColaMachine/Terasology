@@ -21,46 +21,46 @@ import org.terasology.engine.SimpleUri;
 /**
  * @author Immortius
  */
-public interface BindableButton {
+public interface BindableButton {//按钮 一个信号源
 
     /**
      * @return The identifier for this button
      */
-    SimpleUri getId();
+    SimpleUri getId();//有唯一的id
 
     /**
      * @return The display name for this button
      */
-    String getDisplayName();
+    String getDisplayName();//有可以显示的名称
 
     /**
      * Set the circumstance under which this button sends events
      *
      * @param mode
      */
-    void setMode(ActivateMode mode);
+    void setMode(ActivateMode mode);//当down 或up 何种情况能自动发送时间
 
     /**
      * @return The circumstance under which this button sends events
      */
-    ActivateMode getMode();
+    ActivateMode getMode();//响应模式
 
     /**
      * Sets whether this button sends repeat events while pressed
      *
      * @param repeating
      */
-    void setRepeating(boolean repeating);
+    void setRepeating(boolean repeating);//当按下的时候是否持续发送事件
 
     /**
      * @return Whether this button sends repeat events while pressed
      */
-    boolean isRepeating();
+    boolean isRepeating();//得到是否可以持续发送事件
 
     /**
      * @param repeatTimeMs The time (in milliseconds) between repeat events being sent
      */
-    void setRepeatTime(int repeatTimeMs);
+    void setRepeatTime(int repeatTimeMs);//可重复间断时间
 
     /**
      * @return The time (in milliseconds) between repeat events being sent
@@ -70,20 +70,20 @@ public interface BindableButton {
     /**
      * @return The current state of this button (either up or down)
      */
-    ButtonState getState();
+    ButtonState getState();//发货当前按钮状态 按下 抬起 还是在重复
 
     /**
      * Used to directly subscribe to the button's events
      *
      * @param subscriber
      */
-    void subscribe(BindButtonSubscriber subscriber);
+    void subscribe(BindButtonSubscriber subscriber); //注册
 
     /**
      * Used to unsubscribe from the button's event
      *
      * @param subscriber
      */
-    void unsubscribe(BindButtonSubscriber subscriber);
+    void unsubscribe(BindButtonSubscriber subscriber);//卸载注册
 
 }

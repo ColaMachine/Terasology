@@ -161,19 +161,19 @@ public class BindableButtonImpl implements BindableButton {//当改变状态的�
                                    Vector3f hitPosition,
                                    Vector3f hitNormal,
                                    boolean initialKeyConsumed) {
-        boolean keyConsumed = initialKeyConsumed;
+        boolean keyConsumed = initialKeyConsumed;//是否可消耗
         if (pressed) {
-            boolean previouslyEmpty = activeInputs.isEmpty();
-            activeInputs.add(input);
-            if (previouslyEmpty && mode.isActivatedOnPress()) {
-                lastActivateTime = time.getGameTimeInMs();
-                consumedActivation = keyConsumed;
-                if (!keyConsumed) {
+            boolean previouslyEmpty = activeInputs.isEmpty();//输入项是空的
+            activeInputs.add(input);//输入项目新增input
+            if (previouslyEmpty && mode.isActivatedOnPress()) {//如果这是第一个输入项 并且是在按压的时候激活
+                lastActivateTime = time.getGameTimeInMs();//上次激活时间是现在的游戏时间
+                consumedActivation = keyConsumed;//consumedActivation是现在的可消耗模式
+                if (!keyConsumed) {//如果是不是可消耗的
                     keyConsumed = triggerOnPress(delta, target);
                 }
-                if (!keyConsumed) {
+                if (!keyConsumed) {//如果是可以消耗的 如果还没被消耗掉
                     buttonEvent.prepare(id, ButtonState.DOWN, delta);
-                    buttonEvent.setTargetInfo(target, targetBlockPos, hitPosition, hitNormal);
+                    buttonEvent.setTargetInfo(target, targetBlockPos, hitPosition, hitNormal);//这个buttonevent是this变量
                     for (EntityRef entity : inputEntities) {
                         entity.send(buttonEvent);
                         if (buttonEvent.isConsumed()) {
@@ -226,9 +226,9 @@ public class BindableButtonImpl implements BindableButton {//当改变状态的�
     }
 
     private boolean triggerOnPress(float delta, EntityRef target) {
-        for (BindButtonSubscriber subscriber : subscribers) {
+        for (BindButtonSubscriber subscriber : subscribers) {//循环注册者调用onpress方法
             if (subscriber.onPress(delta, target)) {
-                return true;
+                return true;//如果有一个是被消耗掉了就不循环了
             }
         }
         return false;

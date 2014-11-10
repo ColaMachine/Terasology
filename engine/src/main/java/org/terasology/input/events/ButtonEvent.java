@@ -20,7 +20,7 @@ import org.terasology.input.ButtonState;
 
 /**
  * @author Immortius
- */
+ *///bindbuttonevent --> buttonevent --> inputevent --》ConsumableEvent --> event//都含有按钮的状态 释放 按下还是repeat
 public abstract class ButtonEvent extends InputEvent {
 
     public ButtonEvent(float delta) {

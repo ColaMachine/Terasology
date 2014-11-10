@@ -34,26 +34,26 @@ import java.util.Objects;
  * Component represent the location and facing of an entity in the world
  *
  * @author Immortius <immortius@gmail.com>
- */
+ *///携带了 位置和朝向信息
 public final class LocationComponent implements Component, ReplicationCheck {
 
-    public boolean replicateChanges = true;
+    public boolean replicateChanges = true;//复制变化
 
     // Relative to
     @Replicate
-    EntityRef parent = EntityRef.NULL;
+    EntityRef parent = EntityRef.NULL;//父节点
 
     @Replicate
-    List<EntityRef> children = Lists.newArrayList();
+    List<EntityRef> children = Lists.newArrayList();//child
 
     // Standard position/rotation
     @Replicate
     @TextField
-    Vector3f position = new Vector3f();
+    Vector3f position = new Vector3f();//位置
     @Replicate
-    Quat4f rotation = new Quat4f(0, 0, 0, 1);
+    Quat4f rotation = new Quat4f(0, 0, 0, 1);//方向
     @Replicate
-    float scale = 1.0f;
+    float scale = 1.0f;//scale
 
     public LocationComponent() {
     }
@@ -97,7 +97,7 @@ public final class LocationComponent implements Component, ReplicationCheck {
     }
 
     public Vector3f getWorldPosition(Vector3f output) {
-        output.set(position);
+        output.set(position);//parent也有一个locationComponent
         LocationComponent parentLoc = parent.getComponent(LocationComponent.class);
         while (parentLoc != null) {
             output.scale(parentLoc.scale);
